@@ -74,10 +74,10 @@ export default async function ShopDetailPage({
 
           /* CTA Button */
           .article-cta {
-            margin-top: 4rem;
+            margin-top: 3rem;
             margin-bottom: 2rem;
             text-align: center;
-            padding: 3rem;
+            padding: 2rem 1.5rem;
             background: linear-gradient(135deg, #f8f7ff 0%, #ede9fe 100%);
             border-radius: 24px;
             border: 1px solid rgba(99,102,241,0.15);
@@ -86,14 +86,17 @@ export default async function ShopDetailPage({
             display: inline-block;
             background-color: #0a0a0a;
             color: #ffffff;
-            padding: 1.2rem 3rem;
+            padding: 0.85rem 2rem;
             border-radius: 9999px;
             font-weight: 600;
             text-decoration: none;
             letter-spacing: 0.05em;
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            font-size: 1.1rem;
+            font-size: 1rem;
+            line-height: 1.4;
+            max-width: 100%;
+            white-space: normal;
           }
           .article-cta-btn:hover {
             background-color: #333333;
@@ -220,11 +223,11 @@ export default async function ShopDetailPage({
                         </div>
 
                         <div className="article-cta">
-                            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.5rem', color: '#0f172a' }}>
+                            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1.25rem', color: '#0f172a' }}>
                                 さっそく海外通販を楽しんでみましょう
                             </h3>
                             <a href={shop.url} target="_blank" rel="noopener noreferrer" className="article-cta-btn">
-                                {shop.name} 公式サイトを見る →
+                                公式サイトへアクセスする →
                             </a>
                         </div>
 
