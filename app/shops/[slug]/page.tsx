@@ -108,36 +108,56 @@ export default async function ShopDetailPage({
                     background: 'linear-gradient(135deg, #ffffff 0%, #f8f7ff 40%, #ede9fe 100%)',
                     borderBottom: '1px solid #e2e8f0'
                 }}>
-                    <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                        <Link href="/shops" className="back-link" style={{ display: 'inline-block', marginBottom: '2rem' }}>← ショップ一覧に戻る</Link>
+                    <div style={{ maxWidth: '1000px', margin: '0 auto', display: 'flex', flexWrap: 'wrap', gap: '3rem', alignItems: 'center' }}>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem' }}>
-                            {shop.category && (
-                                <span style={{
-                                    fontSize: '0.8rem', fontWeight: 600, color: '#6366f1',
-                                    background: 'rgba(99,102,241,0.1)', padding: '0.3rem 1rem',
-                                    borderRadius: '100px',
-                                }}>{shop.category}</span>
-                            )}
-                            {shop.country && (
-                                <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 500 }}>
-                                    📍 {shop.country}発祥
-                                </span>
-                            )}
+                        <div style={{ flex: '1 1 min(400px, 100%)' }}>
+                            <Link href="/shops" className="back-link" style={{ display: 'inline-block', marginBottom: '2rem' }}>← ショップ一覧に戻る</Link>
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
+                                {shop.category && (
+                                    <span style={{
+                                        fontSize: '0.8rem', fontWeight: 600, color: '#6366f1',
+                                        background: 'rgba(99,102,241,0.1)', padding: '0.3rem 1rem',
+                                        borderRadius: '100px',
+                                    }}>{shop.category}</span>
+                                )}
+                                {shop.country && (
+                                    <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 500 }}>
+                                        📍 {shop.country}発祥
+                                    </span>
+                                )}
+                            </div>
+
+                            <h1 style={{
+                                fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800,
+                                letterSpacing: '-0.03em', color: '#0f172a', lineHeight: 1.2,
+                                marginBottom: '1.5rem'
+                            }}>{shop.name}</h1>
+
+                            <p style={{
+                                fontSize: '1.1rem', color: '#475569', lineHeight: 1.8,
+                            }}>
+                                {shop.description}
+                            </p>
                         </div>
 
-                        <h1 style={{
-                            fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800,
-                            letterSpacing: '-0.03em', color: '#0f172a', lineHeight: 1.2,
-                            marginBottom: '1.5rem'
-                        }}>{shop.name}の解説ガイド</h1>
+                        {shop.image_url && (
+                            <div style={{
+                                flex: '1 1 300px',
+                                borderRadius: '24px',
+                                overflow: 'hidden',
+                                boxShadow: '0 20px 40px -10px rgba(0,0,0,0.1)',
+                                aspectRatio: '16/9',
+                                backgroundColor: '#f1f5f9'
+                            }}>
+                                <img
+                                    src={shop.image_url}
+                                    alt={shop.name}
+                                    style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                                />
+                            </div>
+                        )}
 
-                        <p style={{
-                            fontSize: '1.1rem', color: '#475569', lineHeight: 1.8,
-                            maxWidth: '90%'
-                        }}>
-                            {shop.description}
-                        </p>
                     </div>
                 </section>
 
