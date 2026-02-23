@@ -5,14 +5,61 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
+// Simplified CSV parser for this specific file format
+function extractDomainsFromCSV(csvData) {
+    const domains = new Set();
+    const lines = csvData.split('\n');
+
+    for (let i = 1; i < lines.length; i++) {
+        const line = lines[i].trim();
+        if (!line) continue;
+
+        // The CSV uses quotes for fields with commas. 
+        // Domains are usually at the 3rd column (index 2).
+        // Example: 9,"Sephora","beauty.sephora.com, m.sephora.com, ..."
+
+        let parts = [];
+        let currentPart = '';
+        let inQuotes = false;
+
+        for (let char of line) {
+            if (char === '"') {
+                inQuotes = !inQuotes;
+            } else if (char === ',' && !inQuotes) {
+                parts.push(currentPart.trim());
+                currentPart = '';
+            } else {
+                currentPart += char;
+            }
+        }
+        parts.push(currentPart.trim());
+
+        if (parts.length > 2) {
+            const domainField = parts[2]; // Index 2 is "Domains"
+            // Split by comma in case of multiple domains
+            const domainList = domainField.split(',').map(d => d.trim().toLowerCase().replace(/^www\./, ''));
+            domainList.forEach(d => {
+                if (d) domains.add(d);
+            });
+        }
+    }
+    return domains;
+}
+
 async function syncAffiliates() {
-    console.log('--- Starting Affiliate Sync ---');
+    console.log('--- Starting Precise Affiliate Sync ---');
 
-    // 1. Load CSV
     const csvPath = 'docs/assets/skimlinks_merchants.csv';
-    const csvData = fs.readFileSync(csvPath, 'utf8');
+    if (!fs.existsSync(csvPath)) {
+        console.error('CSV not found at:', csvPath);
+        return;
+    }
 
-    // 2. Fetch all shops from DB
+    const csvData = fs.readFileSync(csvPath, 'utf8');
+    console.log('Parsing CSV domains...');
+    const affiliateDomains = extractDomainsFromCSV(csvData);
+    console.log(`Extracted ${affiliateDomains.size} unique domains from CSV.`);
+
     const { data: shops, error: fetchError } = await supabase
         .from('shops')
         .select('id, url, name');
@@ -22,18 +69,13 @@ async function syncAffiliates() {
         return;
     }
 
-    console.log(`Found ${shops.length} shops in database.`);
-
-    // 3. Match and Update
     for (const shop of shops) {
         let isMatch = false;
         try {
             const urlObj = new URL(shop.url);
-            const host = urlObj.hostname.toLowerCase().replace('www.', '');
+            const host = urlObj.hostname.toLowerCase().replace(/^www\./, '');
 
-            // CSV contains domains like 'net-a-porter.com'
-            // Simple string inclusion check for now as it's a large CSV
-            if (csvData.toLowerCase().includes(host)) {
+            if (affiliateDomains.has(host)) {
                 isMatch = true;
             }
         } catch (e) {
@@ -41,20 +83,11 @@ async function syncAffiliates() {
         }
 
         if (isMatch) {
-            const { error: updateError } = await supabase
-                .from('shops')
-                .update({ is_affiliate: true })
-                .eq('id', shop.id);
-
-            if (updateError) {
-                console.error(`Failed to update ${shop.name}:`, updateError.message);
-            } else {
-                console.log(`✅ Marked as affiliate: ${shop.name}`);
-            }
+            await supabase.from('shops').update({ is_affiliate: true }).eq('id', shop.id);
+            console.log(`✅ Affiliate: ${shop.name}`);
         } else {
-            // Ensure others are false if not matched
             await supabase.from('shops').update({ is_affiliate: false }).eq('id', shop.id);
-            console.log(`⚪ Not an affiliate: ${shop.name}`);
+            console.log(`⚪ Non-Affiliate: ${shop.name}`);
         }
     }
 
