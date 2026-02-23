@@ -18,18 +18,18 @@ export default async function ArticlesPage() {
                 {/* Hero Section */}
                 <section style={{
                     padding: 'clamp(8rem, 12vw, 10rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 4rem)',
-                    background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
-                    color: 'white'
+                    background: 'linear-gradient(135deg, #ffffff 0%, #f8f7ff 40%, #ede9fe 100%)',
+                    borderBottom: '1px solid #e2e8f0',
                 }}>
                     <div style={{ maxWidth: '1000px', margin: '0 auto', textAlign: 'center' }}>
                         <h1 style={{
                             fontSize: 'clamp(2.5rem, 6vw, 4rem)', fontWeight: 800,
-                            letterSpacing: '-0.02em', marginBottom: '1rem'
+                            letterSpacing: '-0.02em', marginBottom: '1rem', color: '#0f172a'
                         }}>海外通販マガジン</h1>
                         <p style={{
-                            fontSize: '1.2rem', color: '#cbd5e1', maxWidth: '600px', margin: '0 auto',
+                            fontSize: '1.2rem', color: '#64748b', maxWidth: '600px', margin: '0 auto',
                         }}>
-                            ブランド情報や海外通販のコツなど、賢くお買い物するためのSEO記事・コラム集です。
+                            ブランド情報や海外通販のコツなど、賢くお買い物するための解説・コラム集です。
                         </p>
                     </div>
                 </section>
