@@ -83,7 +83,7 @@ export default async function ShopsPage(props: any) {
                         fontSize: 'clamp(2.5rem, 5vw, 4rem)', fontWeight: 850,
                         letterSpacing: '-0.04em', color: '#0f172a', lineHeight: 1.1, marginBottom: '1.5rem',
                     }}>
-                        ショップ名鑑
+                        ショップ一覧
                     </h1>
 
                     <div style={{
