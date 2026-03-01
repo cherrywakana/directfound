@@ -9,12 +9,19 @@
     "lint": "eslint",
     "sync-affiliates": "node scripts/sync_affiliates.js",
     "upload-thumbnails": "node scripts/upload_thumbnails.js",
-    "update-shipping": "node scripts/update_shipping_status.js"
+    "update-shipping": "node scripts/update_shipping_status.js",
+    "auto-collect": "node scripts/auto_collect_brands.js",
+    "collect-brands": "node scripts/autonomous_collector.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.97.0",
+    "axios": "^1.13.6",
+    "cheerio": "^1.2.0",
     "fs": "^0.0.1-security",
     "next": "16.1.6",
+    "playwright": "^1.58.2",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
