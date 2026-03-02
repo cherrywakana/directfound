@@ -41,7 +41,14 @@ const shops = [
     { slug: 'ragtag', filePath: 'scripts/assets/ragtag.webp' },
     { slug: 'hedy', filePath: 'scripts/assets/hedy.webp' },
     { slug: 'playful', filePath: 'scripts/assets/playful.webp' },
-    { slug: 'sephora', filePath: 'scripts/assets/sephora.webp' }
+    { slug: 'sephora', filePath: 'scripts/assets/sephora.webp' },
+    { slug: 'liberty-london', filePath: 'scripts/assets/liberty-london.webp' },
+    { slug: 'veja', filePath: 'scripts/assets/veja.webp' },
+    { slug: 'space-nk', filePath: 'scripts/assets/space-nk.webp' },
+    { slug: 'currentbody', filePath: 'scripts/assets/currentbody.webp' },
+    { slug: 'kith', filePath: 'scripts/assets/kith.webp' },
+    { slug: 'patta', filePath: 'scripts/assets/patta.webp' },
+    { slug: 'highsnobiety', filePath: 'scripts/assets/highsnobiety.webp' }
 ];
 
 async function upload() {

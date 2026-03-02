@@ -95,6 +95,13 @@ const SHOP_RULES = {
     'hedy': (slug) => `https://www.hedy.jp/search?q=${slug}`,
     'playful': (slug) => `https://www.playful-dc.com/products/list.php?name=${slug}`,
     'sephora': (slug) => `https://www.sephora.com/search?keyword=${slug}`,
+    'liberty-london': (slug) => `https://www.libertylondon.com/uk/search?q=${slug}`,
+    'veja': (slug) => `https://www.veja-store.com/en_en/catalogsearch/result/?q=${slug}`,
+    'space-nk': (slug) => `https://www.spacenk.com/uk/search?q=${slug}`,
+    'currentbody': (slug) => `https://www.currentbody.com/search?q=${slug}`,
+    'kith': (slug) => `https://kith.com/search?q=${slug}`,
+    'patta': (slug) => `https://www.patta.nl/search?q=${slug}`,
+    'highsnobiety': (slug) => `https://www.highsnobiety.com/shop/search?q=${slug}`,
 };
 
 async function verifyBrandPage(page, url) {
