@@ -14,7 +14,15 @@ const shops = [
     { slug: 'bodega', filePath: 'scripts/assets/bodega.webp' },
     { slug: 'klekt', filePath: 'scripts/assets/klekt.webp' },
     { slug: 'flight-club', filePath: 'scripts/assets/flight-club.webp' },
-    { slug: 'urban-industry', filePath: 'scripts/assets/urban-industry.webp' }
+    { slug: 'urban-industry', filePath: 'scripts/assets/urban-industry.webp' },
+    // New Shops
+    { slug: 'cult-beauty', filePath: 'scripts/assets/cult-beauty.webp' },
+    { slug: 'antonioli', filePath: 'scripts/assets/antonioli.webp' },
+    { slug: 'beauty-bay', filePath: 'scripts/assets/beauty-bay.webp' },
+    { slug: 'tres-bien', filePath: 'scripts/assets/tres-bien.webp' },
+    { slug: 'goodhood', filePath: 'scripts/assets/goodhood.webp' },
+    { slug: 'foot-district', filePath: 'scripts/assets/foot-district.webp' },
+    { slug: 'naked-cph', filePath: 'scripts/assets/naked-cph.webp' }
 ];
 
 async function upload() {

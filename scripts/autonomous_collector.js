@@ -80,6 +80,14 @@ const SHOP_RULES = {
     'bstn': (slug) => `https://www.bstn.com/en/brands/${slug}`,
     'saks-fifth-avenue': (slug) => `https://www.saksfifthavenue.com/brand/${slug}`,
     'slamjam': (slug) => `https://slamjam.com/collections/${slug}`,
+    // New Shops
+    'cult-beauty': (slug) => `https://www.cultbeauty.com/c/brands/${slug}/`,
+    'antonioli': (slug) => `https://antonioli.eu/ja-jp/collections/designer-${slug}-man`,
+    'beauty-bay': (slug) => `https://www.beautybay.com/brand/${slug}/`,
+    'tres-bien': (slug) => `https://tres-bien.com/${slug}`,
+    'goodhood': (slug) => `https://goodhoodstore.com/collections/${slug}`,
+    'foot-district': (slug) => `https://footdistrict.com/en/${slug}`,
+    'naked-cph': (slug) => `https://www.nakedcph.com/en/collections/${slug}`,
 };
 
 async function verifyBrandPage(page, url) {
