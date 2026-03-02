@@ -88,6 +88,13 @@ const SHOP_RULES = {
     'goodhood': (slug) => `https://goodhoodstore.com/collections/${slug}`,
     'foot-district': (slug) => `https://footdistrict.com/en/${slug}`,
     'naked-cph': (slug) => `https://www.nakedcph.com/en/collections/${slug}`,
+    'olive-young': (slug) => `https://global.oliveyoung.com/search?q=${slug}`,
+    'yesstyle': (slug) => `https://www.yesstyle.com/ja/list.html?q=${slug}`,
+    'vintage-qoo': (slug) => `https://www.qoo-online.com/catalogsearch/result/?q=${slug}`,
+    'ragtag': (slug) => `https://www.ragtag-global.com/catalogsearch/result/?q=${slug}`,
+    'hedy': (slug) => `https://www.hedy.jp/search?q=${slug}`,
+    'playful': (slug) => `https://www.playful-dc.com/products/list.php?name=${slug}`,
+    'sephora': (slug) => `https://www.sephora.com/search?keyword=${slug}`,
 };
 
 async function verifyBrandPage(page, url) {
