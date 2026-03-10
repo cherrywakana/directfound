@@ -110,13 +110,6 @@ export default async function BrandDetailPage({
                                             ) : (
                                                 <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8' }}>No Image</div>
                                             )}
-                                            {shop.is_affiliate && (
-                                                <span style={{
-                                                    position: 'absolute', top: '12px', right: '12px', background: 'rgba(99,102,241,0.9)',
-                                                    color: 'white', fontSize: '0.65rem', fontWeight: 700, padding: '3px 8px', borderRadius: '6px',
-                                                    backdropFilter: 'blur(4px)'
-                                                }}>AFFILIATE</span>
-                                            )}
                                         </div>
                                         <div style={{ padding: '1.5rem', flex: 1 }}>
                                             <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0f172a', marginBottom: '0.75rem' }}>{shop.name}</h3>
