@@ -134,8 +134,10 @@ async function ShopList({ category }: { category: string | string[] | undefined 
     // DBクエリの実行
     let query = supabase
         .from('shops')
-        .select('id, name, slug, url, country, category, image_url, description, is_affiliate, ships_to_japan')
+        .select('id, name, slug, url, country, category, image_url, description, is_affiliate, ships_to_japan, popularity_score')
         .order('is_affiliate', { ascending: false })
+        .order('ships_to_japan', { ascending: false })
+        .order('popularity_score', { ascending: false })
         .order('name', { ascending: true })
 
     if (category) {

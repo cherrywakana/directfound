@@ -51,16 +51,27 @@ export default async function BrandDetailPage({
         url,
         image_url,
         description,
-        is_affiliate
+        is_affiliate,
+        ships_to_japan,
+        popularity_score
       )
     `)
         .eq('brand_id', brand.id)
         .eq('status', 'found')
 
-    const availableShops = shopBrands?.map((sb: any) => ({
+    const availableShops = (shopBrands?.map((sb: any) => ({
         ...sb.shops,
         brand_url: sb.brand_url
-    })) || []
+    })) || []).sort((a: any, b: any) => {
+        // 1. Affiliate first
+        if (a.is_affiliate !== b.is_affiliate) return b.is_affiliate ? 1 : -1;
+        // 2. Ships to Japan first
+        if (a.ships_to_japan !== b.ships_to_japan) return (b.ships_to_japan !== false) ? 1 : -1;
+        // 3. Popularity score (desc)
+        if (a.popularity_score !== b.popularity_score) return b.popularity_score - a.popularity_score;
+        // 4. Name (asc)
+        return a.name.localeCompare(b.name);
+    })
 
     return (
         <>
