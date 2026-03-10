@@ -109,35 +109,109 @@ const SHOP_RULES = {
     'd-aniello': (slug) => `https://daniello.com/it-it/collections/${slug}`,
 };
 
-async function verifyBrandPage(page, url) {
+const NEGATIVE_KEYWORDS = [
+    '見つかりませんでした',
+    'no results found',
+    'お探しのページ',
+    '0 results',
+    '0 items',
+    '0件',
+    '商品はありません',
+    'no products',
+    'could not find',
+    'didn\'t match any',
+    '次の検索結果を表示中', // L.L.Bean fallback
+    'we couldn\'t find results for your search', // SpaceNK
+    'oops... we were unable to find', // Size?
+    'search results for: ""',
+    'no matching items',
+    '現在、お客様の条件に一致する項目はありません'
+];
+
+async function verifyBrandPage(page, url, brandName) {
     try {
         console.log(`📡 Accessing: ${url}`);
         const response = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
 
-        // 404 エラー、またはリダイレクト（別のページに飛ばされた）をチェック
         if (!response || response.status() >= 400) {
             return false;
         }
 
-        // ページ内に「見つかりません」系の文言がないかチェック
-        const noResults = await page.evaluate(() => {
+        const noResults = await page.evaluate((Keywords) => {
             const body = document.body.innerText.toLowerCase();
-            const negativeKeywords = [
-                '見つかりませんでした',
-                'no results found',
-                'お探しのページ',
-                '0 results',
-                '0 items',
-                '0件',
-                '商品はありません',
-                'no products',
-                'could not find',
-                'didn\'t match any'
-            ];
-            return negativeKeywords.some(kw => body.includes(kw.toLowerCase()));
-        });
+            return Keywords.some(kw => body.includes(kw.toLowerCase()));
+        }, NEGATIVE_KEYWORDS);
 
-        return !noResults;
+        if (noResults) return false;
+
+        // 2. Main Content Keyword Verification (Crucial for COS/FWRD/L.L.Bean)
+        const hasKeywordInContent = await page.evaluate((name) => {
+            const lowerName = name.toLowerCase();
+
+            // Find the main content area (excluding header/footer/sidebar if possible)
+            const mainContent = document.querySelector('main') ||
+                document.querySelector('#main-content') ||
+                document.querySelector('.main-content') ||
+                document.body;
+
+            const text = mainContent.innerText.toLowerCase();
+
+            // Check if brand name is in the main content
+            if (!text.includes(lowerName)) return false;
+
+            // Extra check for generic landing pages (FWRD, etc.)
+            const h1 = document.querySelector('h1')?.innerText.trim().toLowerCase() || "";
+            const genericTitles = [
+                'all products', 'new arrivals', 'all designers', 'search results', 'items', 'products',
+                'men', 'women', 'clothing', 'shoes', 'accessories', 'sale'
+            ];
+
+            // Specific site selectors for product items
+            const productSelectors = [
+                '.productListItem', // Size?, JD Sports
+                '.product-grids__link', // FWRD
+                '.product-item', // Common
+                '.product-card', // Common
+                'article' // Common semantic
+            ];
+
+            let foundActualProduct = false;
+            for (const selector of productSelectors) {
+                const items = mainContent.querySelectorAll(selector);
+                if (items.length > 0) {
+                    // Check if at least one of the first few items contains the brand name in its text or link
+                    for (let i = 0; i < Math.min(items.length, 5); i++) {
+                        const itemText = items[i].innerText.toLowerCase();
+                        const itemHref = items[i].querySelector('a')?.href.toLowerCase() || items[i].href?.toLowerCase() || "";
+                        if (itemText.includes(lowerName) || itemHref.includes(lowerName)) {
+                            foundActualProduct = true;
+                            break;
+                        }
+                    }
+                }
+                if (foundActualProduct) break;
+            }
+
+            // If we found products but NONE of them match the brand, it's likely "Recommended" or "All Products"
+            if (!foundActualProduct) {
+                // Try one last check in H1 or breadcrumbs
+                const breadcrumbs = document.querySelector('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]')?.innerText.toLowerCase() || "";
+                if (h1.includes(lowerName) || breadcrumbs.includes(lowerName)) {
+                    return true;
+                }
+                return false;
+            }
+
+            // Size? specific: If there's an error message but brand is found in footer
+            const bodyText = document.body.innerText.toLowerCase();
+            if (bodyText.includes('oops') || bodyText.includes('unable to find') || bodyText.includes('we were unable to find')) {
+                return false;
+            }
+
+            return true;
+        }, brandName);
+
+        return hasKeywordInContent;
     } catch (e) {
         console.error(`  ⚠️ Verification failed for ${url}:`, e.message);
         return false;
@@ -168,7 +242,7 @@ async function runAutonomousCollector() {
             if (!rule) continue;
 
             const targetUrl = rule(brand.slug);
-            const isFound = await verifyBrandPage(page, targetUrl);
+            const isFound = await verifyBrandPage(page, targetUrl, brand.name);
 
             if (isFound) {
                 console.log(`  ✅ FOUND on ${shop.name}`);
