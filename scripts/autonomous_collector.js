@@ -102,6 +102,11 @@ const SHOP_RULES = {
     'kith': (slug) => `https://kith.com/search?q=${slug}`,
     'patta': (slug) => `https://www.patta.nl/search?q=${slug}`,
     'highsnobiety': (slug) => `https://www.highsnobiety.com/shop/search?q=${slug}`,
+    'modes': (slug) => `https://www.modes.com/en-jp/designers/${slug}`,
+    'tessabit': (slug) => `https://www.tessabit.com/en-jp/man/designer/${slug}.html`,
+    'julian-fashion': (slug) => `https://www.julian-fashion.com/en-jp/designer/${slug}`,
+    'base-blu': (slug) => `https://www.baseblu.com/en-jp/designer/${slug}`,
+    'd-aniello': (slug) => `https://daniello.com/it-it/collections/${slug}`,
 };
 
 async function verifyBrandPage(page, url) {
@@ -116,8 +121,20 @@ async function verifyBrandPage(page, url) {
 
         // ページ内に「見つかりません」系の文言がないかチェック
         const noResults = await page.evaluate(() => {
-            const body = document.body.innerText;
-            return body.includes('見つかりませんでした') || body.includes('No results found') || body.includes('お探しのページ');
+            const body = document.body.innerText.toLowerCase();
+            const negativeKeywords = [
+                '見つかりませんでした',
+                'no results found',
+                'お探しのページ',
+                '0 results',
+                '0 items',
+                '0件',
+                '商品はありません',
+                'no products',
+                'could not find',
+                'didn\'t match any'
+            ];
+            return negativeKeywords.some(kw => body.includes(kw.toLowerCase()));
         });
 
         return !noResults;
