@@ -42,7 +42,7 @@ export default async function ShopsPage(props: any) {
             height: 100%;
           }
           .shop-card:hover {
-            border-color: #6366f1;
+            border-color: #111110;
             transform: translateY(-8px);
             box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
           }
@@ -188,7 +188,7 @@ async function ShopList({ category }: { category: string | string[] | undefined 
 
                     <div style={{ padding: '1.5rem', flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', flexWrap: 'wrap' }}>
-                            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#6366f1', background: 'rgba(99,102,241,0.1)', padding: '0.2rem 0.6rem', borderRadius: '4px' }}>
+                            <span style={{ fontSize: '0.75rem', fontWeight: 600, color: '#111110', background: 'rgba(17,17,16,0.06)', padding: '0.2rem 0.6rem', borderRadius: '4px' }}>
                                 {shop.category}
                             </span>
                             <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>📍 {shop.country}</span>

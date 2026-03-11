@@ -74,32 +74,7 @@ export default async function Home() {
             flex-shrink: 0;
           }
 
-          /* ─── Hero image grid ─── */
-          .hero-img-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: repeat(3, 120px);
-            gap: 8px;
-            width: 340px;
-            flex-shrink: 0;
-          }
-          @media (max-width: 900px) {
-            .hero-img-grid { display: none; }
-          }
-          .hero-img-item {
-            border-radius: 10px;
-            overflow: hidden;
-            background: #f0f0ee;
-          }
-          .hero-img-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.4s ease;
-          }
-          .hero-img-item:hover img { transform: scale(1.04); }
-          .hero-img-item.tall { grid-row: span 2; }
+
 
           /* ─── Category grid ─── */
           .cat-grid-v2 {
@@ -283,30 +258,6 @@ export default async function Home() {
                     <div style={{ fontSize: '0.7rem', fontWeight: 600, color: '#a1a19f', letterSpacing: '0.08em', textTransform: 'uppercase', marginTop: '0.3rem' }}>{s.l}</div>
                   </div>
                 ))}
-              </div>
-            </div>
-
-            {/* Right: shop image mosaic */}
-            <div className="hero-img-grid fade-in delay-3">
-              {/* Row 1: tall left + normal right */}
-              <div className="hero-img-item tall">
-                <img src={`${SUPABASE_URL}/shop-thumbnails/farfetch.webp`} alt="FARFETCH" loading="lazy" />
-              </div>
-              <div className="hero-img-item">
-                <img src={`${SUPABASE_URL}/shop-thumbnails/harrods.webp`} alt="HARRODS" loading="lazy" />
-              </div>
-              <div className="hero-img-item">
-                <img src={`${SUPABASE_URL}/shop-thumbnails/cettire.webp`} alt="CETTIRE" loading="lazy" />
-              </div>
-              {/* Row 2: normal + tall right */}
-              <div className="hero-img-item">
-                <img src={`${SUPABASE_URL}/shop-thumbnails/giglio.webp`} alt="GIGLIO" loading="lazy" />
-              </div>
-              <div className="hero-img-item tall">
-                <img src={`${SUPABASE_URL}/shop-thumbnails/24s.webp`} alt="24S" loading="lazy" />
-              </div>
-              <div className="hero-img-item">
-                <img src={`${SUPABASE_URL}/shop-thumbnails/antonioli.webp`} alt="ANTONIOLI" loading="lazy" />
               </div>
             </div>
           </div>

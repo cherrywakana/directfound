@@ -89,7 +89,7 @@ export default function AboutPage() {
                                                 fontSize: '0.95rem', color: '#475569', lineHeight: 1.75,
                                                 display: 'flex', alignItems: 'flex-start', gap: '0.6rem',
                                             }}>
-                                                <span style={{ color: '#6366f1', fontWeight: 700, flexShrink: 0 }}>✓</span>
+                                                <span style={{ color: '#111110', fontWeight: 700, flexShrink: 0 }}>✓</span>
                                                 {item}
                                             </li>
                                         ))}
@@ -99,7 +99,7 @@ export default function AboutPage() {
                                 {section.email && (
                                     <p style={{ marginTop: '1rem' }}>
                                         <a href={`mailto:${section.email}`} style={{
-                                            color: '#6366f1', fontWeight: 600, textDecoration: 'none',
+                                            color: '#111110', fontWeight: 600, textDecoration: 'none',
                                             fontSize: '0.95rem',
                                         }}>
                                             {section.email}

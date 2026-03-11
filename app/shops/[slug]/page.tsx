@@ -21,7 +21,7 @@ export default async function ShopDetailPage({
             <Header />
             <main style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', padding: 'clamp(8rem, 12vw, 10rem) clamp(1.5rem, 5vw, 4rem)', minHeight: '100vh', background: '#f8fafc' }}>
                 <p style={{ color: '#94a3b8', marginBottom: '1.5rem' }}>ショップが見つかりません。</p>
-                <Link href="/shops" style={{ color: '#6366f1', textDecoration: 'none', fontWeight: 600 }}>← ショップ一覧に戻る</Link>
+                <Link href="/shops" style={{ color: '#111110', textDecoration: 'none', fontWeight: 600 }}>← ショップ一覧に戻る</Link>
             </main>
         </>
     )
@@ -31,7 +31,7 @@ export default async function ShopDetailPage({
             <Header />
             <main style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', background: 'white' }}>
                 <style>{`
-          .back-link { color: #6366f1; text-decoration: none; font-weight: 500; font-size: 0.875rem; transition: opacity 0.2s; }
+          .back-link { color: #111110; text-decoration: none; font-weight: 500; font-size: 0.875rem; transition: opacity 0.2s; }
           .back-link:hover { opacity: 0.7; }
           
           .info-card {
@@ -120,8 +120,8 @@ export default async function ShopDetailPage({
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1.25rem', flexWrap: 'wrap' }}>
                                 {shop.category && (
                                     <span style={{
-                                        fontSize: '0.8rem', fontWeight: 600, color: '#6366f1',
-                                        background: 'rgba(99,102,241,0.1)', padding: '0.3rem 1rem',
+                                        fontSize: '0.8rem', fontWeight: 600, color: '#111110',
+                                        background: 'rgba(17,17,16,0.06)', padding: '0.3rem 1rem',
                                         borderRadius: '100px',
                                     }}>{shop.category}</span>
                                 )}

@@ -116,7 +116,7 @@ export default async function ArticleDetailPage({
                 <div style={{ maxWidth: '800px', margin: '0 auto' }}>
                     <p style={{ color: '#94a3b8', marginBottom: '1.5rem', textAlign: 'center', fontSize: '1.2rem' }}>記事が見つかりません。</p>
                     <div style={{ textAlign: 'center' }}>
-                        <Link href="/articles" style={{ color: '#6366f1', textDecoration: 'none', fontWeight: 600 }}>← 記事一覧に戻る</Link>
+                        <Link href="/articles" style={{ color: '#111110', textDecoration: 'none', fontWeight: 600 }}>← 記事一覧に戻る</Link>
                     </div>
                 </div>
             </main>
@@ -327,7 +327,7 @@ export default async function ArticleDetailPage({
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
                             {post.category && (
                                 <span style={{
-                                    fontSize: '0.85rem', fontWeight: 600, color: '#4f46e5',
+                                    fontSize: '0.85rem', fontWeight: 600, color: '#111110',
                                     background: 'rgba(79, 70, 229, 0.1)', padding: '0.4rem 1.2rem',
                                     borderRadius: '100px',
                                 }}>{post.category}</span>

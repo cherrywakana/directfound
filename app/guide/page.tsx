@@ -89,7 +89,7 @@ export default function GuidePage() {
                                                 padding: '0.5rem 0',
                                                 transition: 'color 0.2s',
                                             }}
-                                            onMouseEnter={(e) => e.currentTarget.style.color = '#6366f1'}
+                                            onMouseEnter={(e) => e.currentTarget.style.color = '#111110'}
                                             onMouseLeave={(e) => e.currentTarget.style.color = '#334155'}
                                         >
                                             <span style={{ color: '#94a3b8' }}>•</span>

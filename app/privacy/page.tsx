@@ -93,7 +93,7 @@ export default function PrivacyPage() {
                                 }}>
                                     <span style={{
                                         width: '28px', height: '28px', borderRadius: '8px',
-                                        background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
+                                        background: '#111110',
                                         color: 'white', fontSize: '0.75rem', fontWeight: 700,
                                         display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                                     }}>

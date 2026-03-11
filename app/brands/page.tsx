@@ -66,7 +66,7 @@ export default async function BrandsPage() {
                             <a key={key} href={`#section-${key}`} style={{
                                 width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                                 background: 'white', border: '1px solid #e2e8f0', borderRadius: '8px',
-                                textDecoration: 'none', color: '#6366f1', fontWeight: 600, fontSize: '0.9rem',
+                                textDecoration: 'none', color: '#111110', fontWeight: 600, fontSize: '0.9rem',
                                 transition: 'all 0.2s',
                             }}>
                                 {key}
@@ -79,7 +79,7 @@ export default async function BrandsPage() {
                             <div key={key} id={`section-${key}`}>
                                 <h2 style={{
                                     fontSize: '2rem', fontWeight: 800, color: '#0f172a', marginBottom: '1.5rem',
-                                    borderBottom: '2px solid #6366f1', display: 'inline-block', paddingRight: '1rem'
+                                    borderBottom: '2px solid #111110', display: 'inline-block', paddingRight: '1rem'
                                 }}>
                                     {key}
                                 </h2>

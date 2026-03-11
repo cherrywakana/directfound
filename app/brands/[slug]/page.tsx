@@ -85,7 +85,7 @@ export default async function BrandDetailPage({
                     borderBottom: '1px solid #e2e8f0',
                 }}>
                     <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-                        <Link href="/brands" style={{ color: '#6366f1', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600, display: 'inline-block', marginBottom: '2rem' }}>
+                        <Link href="/brands" style={{ color: '#111110', textDecoration: 'none', fontSize: '0.9rem', fontWeight: 600, display: 'inline-block', marginBottom: '2rem' }}>
                             ← ブランド一覧へ戻る
                         </Link>
                         <h1 style={{
@@ -132,7 +132,7 @@ export default async function BrandDetailPage({
                                             </p>
                                         </div>
                                         <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid #f1f5f9', display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '0.4rem' }}>
-                                            <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#6366f1' }}>ショップへ移動</span>
+                                            <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#111110' }}>ショップへ移動</span>
                                             <span style={{ fontSize: '0.75rem' }}>↗️</span>
                                         </div>
                                     </div>

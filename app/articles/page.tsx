@@ -79,7 +79,7 @@ export default async function ArticlesPage() {
                                             <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1 }}>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem', fontSize: '0.85rem' }}>
                                                     {post.category && (
-                                                        <span style={{ fontWeight: 600, color: '#6366f1', background: 'rgba(99,102,241,0.1)', padding: '0.2rem 0.6rem', borderRadius: '100px' }}>
+                                                        <span style={{ fontWeight: 600, color: '#111110', background: 'rgba(17,17,16,0.06)', padding: '0.2rem 0.6rem', borderRadius: '100px' }}>
                                                             {post.category}
                                                         </span>
                                                     )}
