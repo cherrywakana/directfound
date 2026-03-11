@@ -2,6 +2,99 @@ import { supabase } from '@/lib/supabase'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import type { Metadata } from 'next'
+import { addExternalLinkAttributes } from '@/lib/utils'
+
+// --- SEO: generateMetadata for per-article title/description/og ---
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ slug: string }>
+}): Promise<Metadata> {
+    const { slug } = await params
+
+    const { data: post } = await supabase
+        .from('posts')
+        .select('title, content, thumbnail_url')
+        .eq('slug', slug)
+        .single()
+
+    if (!post) {
+        return {
+            title: '記事が見つかりません | Direct Found',
+        }
+    }
+
+    // Extract first 120 chars of plain text for description
+    const plainText = post.content
+        ?.replace(/<[^>]*>/g, '')
+        ?.replace(/\s+/g, ' ')
+        ?.trim()
+        ?.slice(0, 120) + '...'
+
+    return {
+        title: `${post.title} | Direct Found`,
+        description: plainText,
+        openGraph: {
+            title: post.title,
+            description: plainText,
+            type: 'article',
+            url: `https://directfound.com/articles/${slug}`,
+            siteName: 'Direct Found',
+            ...(post.thumbnail_url && {
+                images: [
+                    {
+                        url: post.thumbnail_url,
+                        width: 1200,
+                        height: 630,
+                        alt: post.title,
+                    },
+                ],
+            }),
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: plainText,
+            ...(post.thumbnail_url && { images: [post.thumbnail_url] }),
+        },
+    }
+}
+
+// --- Helper: Extract headings from HTML for Table of Contents ---
+function extractHeadings(html: string): { id: string; text: string; level: number }[] {
+    const headings: { id: string; text: string; level: number }[] = []
+    const regex = /<h([2-3])[^>]*>(.*?)<\/h\1>/gi
+    let match
+
+    while ((match = regex.exec(html)) !== null) {
+        const level = parseInt(match[1])
+        const text = match[2].replace(/<[^>]*>/g, '').trim()
+        const id = text
+            .replace(/[^\w\u3000-\u9FFF\uFF00-\uFFEF]/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '')
+            .toLowerCase()
+        if (text) {
+            headings.push({ id, text, level })
+        }
+    }
+
+    return headings
+}
+
+// --- Helper: Inject IDs into headings in HTML ---
+function injectHeadingIds(html: string, headings: { id: string; text: string; level: number }[]): string {
+    let headingIndex = 0
+    return html.replace(/<h([2-3])([^>]*)>(.*?)<\/h\1>/gi, (fullMatch, level, attrs, content) => {
+        if (headingIndex < headings.length) {
+            const heading = headings[headingIndex]
+            headingIndex++
+            return `<h${level} id="${heading.id}"${attrs}>${content}</h${level}>`
+        }
+        return fullMatch
+    })
+}
 
 export default async function ArticleDetailPage({
     params,
@@ -30,13 +123,83 @@ export default async function ArticleDetailPage({
         </>
     )
 
+    // Extract headings for ToC and inject IDs
+    const headings = extractHeadings(post.content || '')
+    const contentWithLinks = addExternalLinkAttributes(post.content || '')
+    const contentWithIds = injectHeadingIds(contentWithLinks, headings)
+
+    // --- JSON-LD Structured Data ---
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: post.title,
+        description: post.content?.replace(/<[^>]*>/g, '')?.replace(/\s+/g, ' ')?.trim()?.slice(0, 200),
+        image: post.thumbnail_url || undefined,
+        datePublished: post.created_at,
+        dateModified: post.updated_at || post.created_at,
+        author: {
+            '@type': 'Organization',
+            name: 'Direct Found',
+            url: 'https://directfound.com',
+        },
+        publisher: {
+            '@type': 'Organization',
+            name: 'Direct Found',
+            url: 'https://directfound.com',
+        },
+        mainEntityOfPage: {
+            '@type': 'WebPage',
+            '@id': `https://directfound.com/articles/${slug}`,
+        },
+    }
+
     return (
         <>
             <Header />
+            {/* JSON-LD */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', background: 'white' }}>
                 <style>{`
           .back-link { color: #6366f1; text-decoration: none; font-weight: 500; font-size: 0.875rem; transition: opacity 0.2s; }
           .back-link:hover { opacity: 0.7; }
+          
+          /* Table of Contents */
+          .toc-container {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+          }
+          .toc-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+          }
+          .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+          }
+          .toc-list li {
+            margin-bottom: 0.5rem;
+          }
+          .toc-list li a {
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            transition: color 0.2s;
+          }
+          .toc-list li a:hover { color: #6366f1; }
+          .toc-list li.toc-h3 { padding-left: 1.25rem; }
+          .toc-list li.toc-h3 a { font-size: 0.875rem; color: #64748b; }
           
           /* Reading experience styles */
           .article-content {
@@ -55,6 +218,7 @@ export default async function ArticleDetailPage({
             padding-bottom: 0.75rem;
             border-bottom: 1px solid #e2e8f0;
             line-height: 1.4;
+            scroll-margin-top: 5rem;
           }
 
           .article-content h3 {
@@ -64,6 +228,7 @@ export default async function ArticleDetailPage({
             margin-top: 2.5rem;
             margin-bottom: 1.25rem;
             line-height: 1.5;
+            scroll-margin-top: 5rem;
           }
 
           .article-content p {
@@ -150,13 +315,27 @@ export default async function ArticleDetailPage({
                 <section style={{ padding: 'clamp(3rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem)' }}>
                     <div style={{ maxWidth: '720px', margin: '0 auto' }}>
 
+                        {/* Table of Contents */}
+                        {headings.length > 0 && (
+                            <nav className="toc-container" aria-label="目次">
+                                <p className="toc-title">📑 目次</p>
+                                <ul className="toc-list">
+                                    {headings.map((h, i) => (
+                                        <li key={i} className={h.level === 3 ? 'toc-h3' : ''}>
+                                            <a href={`#${h.id}`}>{h.level === 3 ? '└ ' : ''}{h.text}</a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </nav>
+                        )}
+
                         {/* Rendering HTML content */}
                         <div
                             className="article-content"
-                            dangerouslySetInnerHTML={{ __html: post.content }}
+                            dangerouslySetInnerHTML={{ __html: contentWithIds }}
                         />
 
-                        {/* Article Footer Area (Share, tags etc. can go here later) */}
+                        {/* Article Footer Area */}
                         <div style={{
                             marginTop: '5rem',
                             paddingTop: '3rem',
