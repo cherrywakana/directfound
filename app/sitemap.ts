@@ -59,20 +59,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         routes.push(...shopRoutes)
     }
 
-    // Get dynamic articles from DB (if applicable, using 'articles' table)
-    // Just in case we have active articles
-    const { data: articles } = await supabase
-        .from('articles')
+    // Get dynamic articles from DB (posts table)
+    const { data: posts } = await supabase
+        .from('posts')
         .select('slug, updated_at')
 
-    if (articles) {
-        const articleRoutes = articles.map((article) => ({
-            url: `${baseUrl}/articles/${article.slug}`,
-            lastModified: new Date(article.updated_at || new Date()),
+    if (posts) {
+        const postRoutes = posts.map((post) => ({
+            url: `${baseUrl}/articles/${post.slug}`,
+            lastModified: new Date(post.updated_at || new Date()),
             changeFrequency: 'weekly' as const,
-            priority: 0.6,
+            priority: 0.9,
         }))
-        routes.push(...articleRoutes)
+        routes.push(...postRoutes)
     }
 
     // Get dynamic brands from DB

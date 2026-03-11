@@ -23,64 +23,58 @@ export default function Header() {
   return (
     <header style={{
       position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
+      top: 0, left: 0, right: 0,
       zIndex: 100,
-      padding: '0 clamp(1.5rem, 5vw, 4rem)',
-      height: '60px',
+      padding: '0 clamp(1.25rem, 5vw, 3rem)',
+      height: '62px',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      backgroundColor: scrolled ? 'rgba(255,255,255,0.85)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(20px)' : 'none',
-      borderBottom: scrolled ? '1px solid rgba(0,0,0,0.06)' : '1px solid transparent',
-      transition: 'all 0.3s ease',
+      backgroundColor: scrolled ? 'rgba(250,250,249,0.92)' : 'rgba(250,250,249,0)',
+      backdropFilter: scrolled ? 'blur(16px) saturate(180%)' : 'none',
+      borderBottom: scrolled ? '1px solid #e5e5e3' : '1px solid transparent',
+      transition: 'background-color 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
     }}>
-      <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.1rem' }}>
+      {/* Logo */}
+      <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
         <span style={{
-          fontSize: '1.15rem',
-          fontWeight: 700,
-          letterSpacing: '-0.03em',
-          color: '#0f172a',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-        }}>Direct</span>
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          width: '28px', height: '28px', borderRadius: '7px',
+          background: '#111110', color: '#fafaf9',
+          fontSize: '0.75rem', fontWeight: 800, letterSpacing: '-0.03em',
+          fontFamily: 'var(--font-sans)',
+        }}>DF</span>
         <span style={{
-          fontSize: '1.15rem',
-          fontWeight: 700,
-          letterSpacing: '-0.03em',
-          background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-        }}>Found</span>
+          fontSize: '1rem', fontWeight: 700, letterSpacing: '-0.03em',
+          color: '#111110', fontFamily: 'var(--font-sans)',
+        }}>Direct Found</span>
       </Link>
 
-      <nav style={{ display: 'flex', gap: '2rem', alignItems: 'center' }} className="desktop-nav">
+      {/* Desktop Nav */}
+      <nav style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }} className="desktop-nav">
         {navLinks.map((link) => (
           <Link key={link.href} href={link.href} className="nav-link" style={{
-            fontSize: '0.875rem',
-            color: '#64748b',
-            textDecoration: 'none',
-            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-            fontWeight: 500,
-            transition: 'color 0.2s',
+            fontSize: '0.875rem', color: '#6b6b69', textDecoration: 'none',
+            fontFamily: 'var(--font-sans)', fontWeight: 500,
+            padding: '0.4rem 0.75rem', borderRadius: '6px',
+            transition: 'color 0.15s, background 0.15s',
           }}>{link.label}</Link>
         ))}
         <Link href="/articles" className="header-cta" style={{
-          fontSize: '0.875rem',
-          fontWeight: 600,
-          color: 'white',
-          background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-          padding: '0.5rem 1.25rem',
-          borderRadius: '8px',
+          marginLeft: '0.5rem',
+          fontSize: '0.8rem', fontWeight: 600,
+          color: '#fafaf9',
+          background: '#111110',
+          padding: '0.45rem 1.1rem',
+          borderRadius: '6px',
           textDecoration: 'none',
-          fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-          transition: 'opacity 0.2s, transform 0.2s',
-          boxShadow: '0 1px 3px rgba(99,102,241,0.3)',
+          fontFamily: 'var(--font-sans)',
+          letterSpacing: '-0.01em',
+          transition: 'background 0.2s, transform 0.2s, box-shadow 0.2s',
         }}>記事を読む</Link>
       </nav>
 
+      {/* Hamburger */}
       <button
         aria-label="メニュー"
         onClick={() => setMenuOpen(!menuOpen)}
@@ -89,7 +83,7 @@ export default function Header() {
       >
         {[0, 1, 2].map((i) => (
           <span key={i} style={{
-            display: 'block', width: '20px', height: '1.5px', backgroundColor: '#0f172a',
+            display: 'block', width: '20px', height: '1.5px', backgroundColor: '#111110',
             transition: 'transform 0.3s, opacity 0.3s',
             transform: menuOpen ? i === 0 ? 'translateY(6.5px) rotate(45deg)' : i === 1 ? 'scaleX(0)' : 'translateY(-6.5px) rotate(-45deg)' : 'none',
             opacity: menuOpen && i === 1 ? 0 : 1,
@@ -97,24 +91,27 @@ export default function Header() {
         ))}
       </button>
 
+      {/* Mobile Menu */}
       {menuOpen && (
         <div style={{
-          position: 'fixed', top: '60px', left: 0, right: 0,
-          backgroundColor: 'rgba(255,255,255,0.98)', backdropFilter: 'blur(20px)',
-          borderBottom: '1px solid rgba(0,0,0,0.06)',
-          padding: '1.5rem clamp(1.5rem, 5vw, 4rem)',
-          display: 'flex', flexDirection: 'column', gap: '1.25rem',
+          position: 'fixed', top: '62px', left: 0, right: 0,
+          backgroundColor: 'rgba(250,250,249,0.98)', backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid #e5e5e3',
+          padding: '1.25rem clamp(1.25rem, 5vw, 3rem)',
+          display: 'flex', flexDirection: 'column', gap: '0.25rem',
         }}>
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)} style={{
-              fontSize: '1rem', color: '#334155', textDecoration: 'none', fontWeight: 500,
-              fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+              fontSize: '0.95rem', color: '#333332', textDecoration: 'none', fontWeight: 500,
+              fontFamily: 'var(--font-sans)', padding: '0.6rem 0.5rem',
+              borderBottom: '1px solid #f0f0ee',
             }}>{link.label}</Link>
           ))}
           <Link href="/articles" onClick={() => setMenuOpen(false)} style={{
-            fontSize: '0.9rem', fontWeight: 600, color: 'white',
-            background: 'linear-gradient(135deg, #6366f1, #8b5cf6)',
-            padding: '0.75rem 1.5rem', borderRadius: '8px', textAlign: 'center', textDecoration: 'none',
+            marginTop: '0.5rem',
+            fontSize: '0.875rem', fontWeight: 600, color: '#fafaf9',
+            background: '#111110',
+            padding: '0.75rem 1.5rem', borderRadius: '6px', textAlign: 'center', textDecoration: 'none',
           }}>記事を読む</Link>
         </div>
       )}
@@ -124,8 +121,8 @@ export default function Header() {
           .desktop-nav { display: none !important; }
           .mobile-toggle { display: flex !important; }
         }
-        .nav-link:hover { color: #0f172a !important; }
-        .header-cta:hover { opacity: 0.9 !important; transform: translateY(-1px) !important; }
+        .nav-link:hover { color: #111110 !important; background: rgba(17,17,16,0.05) !important; }
+        .header-cta:hover { background: #2a2a28 !important; transform: translateY(-1px) !important; box-shadow: 0 4px 12px rgba(0,0,0,0.2) !important; }
       `}</style>
     </header>
   )

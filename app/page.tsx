@@ -7,204 +7,263 @@ import Link from 'next/link'
 const categories = [
   { label: 'ストリート・スニーカー', icon: '👟', href: '/shops?category=' + encodeURIComponent('ストリート・スニーカー') },
   { label: 'ラグジュアリー・百貨店', icon: '💎', href: '/shops?category=' + encodeURIComponent('ラグジュアリー・百貨店') },
-  { label: 'セレクト・トレンド', icon: '👗', href: '/shops?category=' + encodeURIComponent('セレクト・トレンド') },
-  { label: 'コスメ・ビューティー', icon: '💄', href: '/shops?category=' + encodeURIComponent('コスメ・ビューティー'), isNew: true },
-  { label: 'アウトドア', icon: '🏕️', href: '/shops?category=' + encodeURIComponent('アウトドア') },
-  { label: 'アウトレット・リセール', icon: '🏷️', href: '/shops?category=' + encodeURIComponent('アウトレット・リセール') },
-  { label: 'アジア・トレンド', icon: '🇰🇷', href: '/shops?category=' + encodeURIComponent('アジア・トレンド') },
-  { label: 'ヴィンテージ・古着', icon: '🧥', href: '/shops?category=' + encodeURIComponent('ヴィンテージ・古着'), isNew: true },
+  { label: 'セレクト・トレンド', icon: '✦',  href: '/shops?category=' + encodeURIComponent('セレクト・トレンド') },
+  { label: 'コスメ・ビューティー', icon: '◈',  href: '/shops?category=' + encodeURIComponent('コスメ・ビューティー'), isNew: true },
+  { label: 'アウトドア', icon: '⛰', href: '/shops?category=' + encodeURIComponent('アウトドア') },
+  { label: 'アウトレット・リセール', icon: '◷', href: '/shops?category=' + encodeURIComponent('アウトレット・リセール') },
+  { label: 'アジア・トレンド', icon: '✿',  href: '/shops?category=' + encodeURIComponent('アジア・トレンド') },
+  { label: 'ヴィンテージ・古着', icon: '◈',  href: '/shops?category=' + encodeURIComponent('ヴィンテージ・古着'), isNew: true },
 ]
 
 const stats = [
-  { value: '60+', label: '掲載ショップ数' },
+  { value: '60+', label: '掲載ショップ' },
   { value: '20+', label: '注目ブランド' },
-  { value: '50+', label: '徹底ガイド記事' },
+  { value: '50+', label: 'ガイド記事' },
+]
+
+const features = [
+  { 
+    num: '01',
+    title: '日本発送対応のみ',
+    body: '日本への発送に対応しているショップだけを厳選。安心して購入できます。'
+  },
+  {
+    num: '02',
+    title: '関税・送料も丸わかり',
+    body: '初めての方でも安心。関税や送料の仕組みをわかりやすく解説しています。'
+  },
+  {
+    num: '03',
+    title: 'ブランドから探せる',
+    body: '欲しいブランドがどのショップで買えるかを一発で検索できます。'
+  },
 ]
 
 export default function Home() {
   return (
     <>
       <Header />
-      <main style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' }}>
+      <main>
         <style>{`
-          * { box-sizing: border-box; margin: 0; padding: 0; }
-
-          @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+          /* ─── Page-level styles ─── */
+          .home-hero {
+            padding: clamp(8rem, 14vw, 11rem) clamp(1.25rem, 5vw, 3rem) clamp(5rem, 8vw, 7rem);
+            border-bottom: 1px solid #e5e5e3;
           }
-          @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+          .hero-inner {
+            max-width: 1160px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 3rem;
+            align-items: end;
+          }
+          @media (max-width: 720px) {
+            .hero-inner { grid-template-columns: 1fr; }
+            .hero-stats { display: none !important; }
           }
 
-          .fade-1 { animation: fadeUp 0.7s ease both 0.1s; }
-          .fade-2 { animation: fadeUp 0.7s ease both 0.25s; }
-          .fade-3 { animation: fadeUp 0.7s ease both 0.4s; }
-          .fade-4 { animation: fadeUp 0.7s ease both 0.55s; }
+          .hero-headline {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.06;
+            color: #111110;
+          }
+          .hero-headline em {
+            font-style: italic;
+            color: #555553;
+          }
+          .hero-sub {
+            font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+            color: #6b6b69;
+            line-height: 1.75;
+            letter-spacing: -0.01em;
+            max-width: 44ch;
+          }
 
-          .cat-card {
-            background: white;
-            border: 1px solid #e2e8f0;
+          /* ─── Section layout ─── */
+          .section {
+            padding: clamp(4rem, 7vw, 6rem) clamp(1.25rem, 5vw, 3rem);
+            border-bottom: 1px solid #e5e5e3;
+          }
+          .section-inner {
+            max-width: 1160px;
+            margin: 0 auto;
+          }
+          .section-header {
+            margin-bottom: clamp(2rem, 4vw, 3.5rem);
+          }
+
+          /* ─── Category grid ─── */
+          .cat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr));
+            gap: 1px;
+            border: 1px solid #e5e5e3;
             border-radius: 12px;
-            padding: 1.25rem;
-            text-align: center;
-            text-decoration: none;
-            color: #0f172a;
-            display: block;
-            transition: all 0.2s ease;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            overflow: hidden;
+            background: #e5e5e3;
           }
-          .cat-card:hover {
-            border-color: #6366f1;
-            box-shadow: 0 4px 20px rgba(99,102,241,0.12);
-            transform: translateY(-2px);
-          }
-
-          .cta-primary {
-            display: inline-block;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: white;
-            padding: 0.85rem 2rem;
-            border-radius: 10px;
+          .cat-item {
+            background: #fafaf9;
+            padding: 1.75rem 1.25rem;
             text-decoration: none;
+            color: #111110;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            position: relative;
+            transition: background 0.15s ease;
+          }
+          .cat-item:hover { background: #ffffff; }
+          .cat-icon {
+            font-size: 1.4rem;
+            line-height: 1;
+          }
+          .cat-label {
+            font-size: 0.875rem;
             font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.2s;
-            box-shadow: 0 4px 15px rgba(99,102,241,0.35);
+            letter-spacing: -0.01em;
+            color: #1a1a19;
           }
-          .cta-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(99,102,241,0.4);
+          .cat-arrow {
+            font-size: 0.8rem;
+            color: #a1a19f;
+            margin-top: auto;
           }
-
-          .cta-secondary {
-            display: inline-block;
-            background: white;
-            color: #334155;
-            padding: 0.85rem 2rem;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            border: 1px solid #e2e8f0;
-            transition: all 0.2s;
-          }
-          .cta-secondary:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            transform: translateY(-1px);
+          .cat-badge {
+            position: absolute;
+            top: 0.75rem; right: 0.75rem;
+            background: #111110; color: #fafaf9;
+            font-size: 0.6rem; font-weight: 800;
+            letter-spacing: 0.06em;
+            padding: 2px 7px;
+            border-radius: 9999px;
           }
 
-          .articles-cta-btn {
-            display: inline-block;
-            background: white;
-            color: #6366f1;
-            padding: 0.85rem 2rem;
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: all 0.2s;
+          /* ─── Features ─── */
+          .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+            gap: 1px;
+            border: 1px solid #e5e5e3;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #e5e5e3;
           }
-          .articles-cta-btn:hover {
-            background: rgba(255,255,255,0.9);
-            transform: translateY(-1px);
+          .feature-item {
+            background: #fafaf9;
+            padding: clamp(1.5rem, 3vw, 2.5rem);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+          }
+          .feature-num {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            color: #a1a19f;
+          }
+          .feature-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #111110;
+            line-height: 1.4;
+          }
+          .feature-body {
+            font-size: 0.875rem;
+            color: #6b6b69;
+            line-height: 1.72;
+          }
+
+          /* ─── CTA Banner ─── */
+          .cta-banner {
+            background: #111110;
+            border-radius: 16px;
+            padding: clamp(2.5rem, 5vw, 4rem) clamp(2rem, 5vw, 4rem);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            flex-wrap: wrap;
+          }
+          .cta-banner-text {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+            font-weight: 700;
+            color: #fafaf9;
+            letter-spacing: -0.02em;
+            line-height: 1.25;
+            max-width: 36ch;
+          }
+          .cta-banner-text em {
+            font-style: italic;
+            color: rgba(250,250,249,0.6);
+          }
+          .btn-invert {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #fafaf9;
+            color: #111110;
+            padding: 0.75rem 1.6rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            text-decoration: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: all 0.18s ease;
+          }
+          .btn-invert:hover {
+            background: #e8e8e6;
           }
         `}</style>
 
-        {/* ---- Hero ---- */}
-        <section style={{
-          minHeight: '100svh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          padding: 'clamp(8rem, 15vw, 12rem) clamp(1.5rem, 5vw, 4rem) clamp(4rem, 8vw, 6rem)',
-          position: 'relative',
-          overflow: 'hidden',
-          background: 'linear-gradient(135deg, #ffffff 0%, #f8f7ff 40%, #ede9fe 100%)',
-        }}>
-          {/* Background blobs */}
-          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-            <div style={{
-              position: 'absolute', top: '10%', right: '-5%',
-              width: '600px', height: '600px', borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%)',
-              animation: 'float 8s ease-in-out infinite',
-            }} />
-            <div style={{
-              position: 'absolute', bottom: '0%', left: '-10%',
-              width: '500px', height: '500px', borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(99,102,241,0.08) 0%, transparent 70%)',
-              animation: 'float 10s ease-in-out infinite 2s',
-            }} />
-            <div style={{
-              position: 'absolute', top: '30%', right: '15%',
-              width: '200px', height: '200px', borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%)',
-              animation: 'float 6s ease-in-out infinite 1s',
-            }} />
-          </div>
+        {/* ═══════════════════════════════════ HERO */}
+        <section className="home-hero">
+          <div className="hero-inner">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem' }}>
+              {/* Label */}
+              <div className="fade-up delay-1">
+                <span className="tag">海外通販ガイド — Japan</span>
+              </div>
 
-          <div style={{ position: 'relative', maxWidth: '760px' }}>
-            {/* Badge */}
-            <div className="fade-1" style={{
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-              background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)',
-              borderRadius: '100px', padding: '0.35rem 1rem',
-              marginBottom: '1.75rem',
-            }}>
-              <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#6366f1', display: 'block' }} />
-              <span style={{ fontSize: '0.8rem', fontWeight: 500, color: '#6366f1', letterSpacing: '0.02em' }}>
-                日本から買える海外通販ガイド
-              </span>
-            </div>
+              <h1 className="hero-headline fade-up delay-2">
+                世界中のショッピングを、<br />
+                <em>日本から。</em>
+              </h1>
 
-            <h1 className="fade-2" style={{
-              fontSize: 'clamp(2.5rem, 7vw, 5rem)',
-              fontWeight: 800,
-              letterSpacing: '-0.04em',
-              lineHeight: 1.08,
-              color: '#0f172a',
-              marginBottom: '1.5rem',
-            }}>
-              世界中のショッピングを、<br />
-              <span style={{
-                background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a78bfa 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}>
-                日本から。
-              </span>
-            </h1>
+              <p className="hero-sub fade-up delay-3">
+                日本発送対応の海外通販サイトを厳選してご紹介。<br />
+                ブランドから探せて、関税や送料の情報もわかります。
+              </p>
 
-            <p className="fade-3" style={{
-              fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
-              color: '#64748b',
-              lineHeight: 1.75,
-              marginBottom: '2.5rem',
-              maxWidth: '48ch',
-              fontWeight: 400,
-            }}>
-              日本発送対応の海外通販サイトを厳選してご紹介。
-              ブランドから探せて、関税や送料の情報もわかります。
-            </p>
-
-            <div className="fade-4" style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-              <Link href="/shops" className="cta-primary">ショップを探す →</Link>
-              <Link href="/articles" className="cta-secondary">ガイドを読む</Link>
+              <div className="fade-up delay-4" style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                <Link href="/shops" className="btn btn-primary">ショップを探す →</Link>
+                <Link href="/articles" className="btn btn-secondary">ガイドを読む</Link>
+              </div>
             </div>
 
             {/* Stats */}
-            <div className="fade-4" style={{
-              display: 'flex', gap: '2.5rem', marginTop: '3.5rem', flexWrap: 'wrap',
+            <div className="hero-stats fade-in delay-5" style={{
+              display: 'flex', flexDirection: 'column', gap: '0',
+              border: '1px solid #e5e5e3', borderRadius: '12px',
+              overflow: 'hidden', minWidth: '160px',
             }}>
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <div style={{ fontSize: '1.75rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.03em' }}>
+              {stats.map((s, i) => (
+                <div key={s.label} style={{
+                  padding: '1.5rem 1.75rem',
+                  borderBottom: i < stats.length - 1 ? '1px solid #e5e5e3' : 'none',
+                }}>
+                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: '2rem', fontWeight: 700, letterSpacing: '-0.04em', color: '#111110' }}>
                     {s.value}
                   </div>
-                  <div style={{ fontSize: '0.78rem', color: '#94a3b8', marginTop: '0.2rem', fontWeight: 500 }}>
+                  <div style={{ fontSize: '0.72rem', fontWeight: 600, color: '#a1a19f', letterSpacing: '0.05em', textTransform: 'uppercase', marginTop: '0.25rem' }}>
                     {s.label}
                   </div>
                 </div>
@@ -213,133 +272,61 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ---- Categories ---- */}
-        <section style={{
-          padding: 'clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem)',
-          background: '#f8fafc',
-        }}>
-          <div style={{ maxWidth: '960px', margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: 'clamp(2.5rem, 5vw, 4rem)' }}>
-              <p style={{
-                fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.1em',
-                textTransform: 'uppercase', color: '#6366f1', marginBottom: '0.75rem',
-              }}>カテゴリ</p>
-              <h2 style={{
-                fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800,
-                letterSpacing: '-0.03em', color: '#0f172a',
-              }}>何をお探しですか？</h2>
+        {/* ═══════════════════════════════════ CATEGORIES */}
+        <section className="section">
+          <div className="section-inner">
+            <div className="section-header">
+              <p className="section-label">カテゴリ</p>
+              <h2 className="section-title">何をお探しですか？</h2>
             </div>
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 180px), 1fr))',
-              gap: '1.25rem',
-            }}>
+            <div className="cat-grid">
               {categories.map((cat: any) => (
-                <Link key={cat.label} href={cat.href} className="cat-card" style={{ position: 'relative' }}>
-                  {cat.isNew && (
-                    <span style={{
-                      position: 'absolute', top: '-8px', right: '-8px',
-                      background: '#ef4444', color: 'white', fontSize: '0.65rem',
-                      fontWeight: 800, padding: '2px 8px', borderRadius: '100px',
-                      boxShadow: '0 2px 8px rgba(239, 68, 68, 0.4)',
-                    }}>NEW</span>
-                  )}
-                  <div style={{ fontSize: '2rem', marginBottom: '0.75rem' }}>{cat.icon}</div>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 700, color: '#1e293b' }}>{cat.label}</div>
+                <Link key={cat.label} href={cat.href} className="cat-item">
+                  {cat.isNew && <span className="cat-badge">NEW</span>}
+                  <div className="cat-icon">{cat.icon}</div>
+                  <div className="cat-label">{cat.label}</div>
+                  <div className="cat-arrow">→</div>
                 </Link>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ---- Features ---- */}
-        <section style={{
-          padding: 'clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem)',
-          background: 'white',
-        }}>
-          <div style={{ maxWidth: '960px', margin: '0 auto' }}>
-            <div style={{ textAlign: 'center', marginBottom: 'clamp(2.5rem, 5vw, 4rem)' }}>
-              <p style={{
-                fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.1em',
-                textTransform: 'uppercase', color: '#6366f1', marginBottom: '0.75rem',
-              }}>特徴</p>
-              <h2 style={{
-                fontSize: 'clamp(1.75rem, 4vw, 2.5rem)', fontWeight: 800,
-                letterSpacing: '-0.03em', color: '#0f172a',
-              }}>安心して海外通販を。</h2>
+        {/* ═══════════════════════════════════ FEATURES */}
+        <section className="section">
+          <div className="section-inner">
+            <div className="section-header">
+              <p className="section-label">特徴</p>
+              <h2 className="section-title">安心して海外通販を。</h2>
             </div>
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 280px), 1fr))',
-              gap: '1.5rem',
-            }}>
-              {[
-                { icon: '🚢', title: '日本発送対応ショップのみ', body: '日本への発送に対応しているショップだけを厳選。安心して購入できます。' },
-                { icon: '📦', title: '関税・送料も丸わかり', body: '初めての方でも安心。関税や送料の仕組みをわかりやすく解説しています。' },
-                { icon: '🔍', title: 'ブランドから探せる', body: '欲しいブランドがどのショップで買えるかを一発で検索できます。' },
-              ].map((f) => (
-                <div key={f.title} style={{
-                  background: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '16px',
-                  padding: 'clamp(1.5rem, 3vw, 2rem)',
-                }}>
-                  <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>{f.icon}</div>
-                  <h3 style={{
-                    fontSize: '1rem', fontWeight: 700, color: '#0f172a',
-                    marginBottom: '0.6rem', letterSpacing: '-0.01em',
-                  }}>{f.title}</h3>
-                  <p style={{ fontSize: '0.875rem', color: '#64748b', lineHeight: 1.75 }}>{f.body}</p>
+            <div className="features-grid">
+              {features.map((f) => (
+                <div key={f.num} className="feature-item">
+                  <span className="feature-num">{f.num}</span>
+                  <h3 className="feature-title">{f.title}</h3>
+                  <p className="feature-body">{f.body}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* ---- Articles CTA ---- */}
-        <section style={{
-          padding: 'clamp(4rem, 8vw, 7rem) clamp(1.5rem, 5vw, 4rem)',
-          background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-          textAlign: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
-            <div style={{
-              position: 'absolute', top: '-30%', right: '-10%',
-              width: '500px', height: '500px', borderRadius: '50%',
-              background: 'rgba(255,255,255,0.06)',
-            }} />
-            <div style={{
-              position: 'absolute', bottom: '-20%', left: '-5%',
-              width: '400px', height: '400px', borderRadius: '50%',
-              background: 'rgba(255,255,255,0.04)',
-            }} />
-          </div>
-
-          <div style={{ position: 'relative' }}>
-            <p style={{
-              fontSize: '0.78rem', fontWeight: 600, letterSpacing: '0.1em',
-              textTransform: 'uppercase', color: 'rgba(255,255,255,0.7)', marginBottom: '1rem',
-            }}>ガイド記事</p>
-            <h2 style={{
-              fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', fontWeight: 800,
-              color: 'white', letterSpacing: '-0.03em', marginBottom: '1rem', lineHeight: 1.2,
-            }}>海外通販、はじめてみませんか。</h2>
-            <p style={{
-              fontSize: '1rem', color: 'rgba(255,255,255,0.8)',
-              lineHeight: 1.8, marginBottom: '2.5rem',
-              maxWidth: '42ch', margin: '0 auto 2.5rem',
-            }}>
-              関税・送料・おすすめショップまで。初心者向けのガイドを揃えています。
-            </p>
-            <Link href="/articles" className="articles-cta-btn">記事を読む →</Link>
+        {/* ═══════════════════════════════════ CTA BANNER */}
+        <section className="section" style={{ border: 'none' }}>
+          <div className="section-inner">
+            <div className="cta-banner">
+              <p className="cta-banner-text">
+                海外通販、<em>はじめてみませんか。</em>
+              </p>
+              <Link href="/articles" className="btn-invert">
+                ガイド記事を読む →
+              </Link>
+            </div>
           </div>
         </section>
 
-        {/* ---- Footer ---- */}
         <Footer />
       </main>
     </>

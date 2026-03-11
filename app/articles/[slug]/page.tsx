@@ -163,23 +163,23 @@ export default async function ArticleDetailPage({
             />
             <main style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', background: 'white' }}>
                 <style>{`
-          .back-link { color: #6366f1; text-decoration: none; font-weight: 500; font-size: 0.875rem; transition: opacity 0.2s; }
-          .back-link:hover { opacity: 0.7; }
+          .back-link { color: #6b6b69; text-decoration: none; font-weight: 500; font-size: 0.82rem; transition: color 0.2s; display: inline-flex; align-items: center; gap: 0.35rem; }
+          .back-link:hover { color: #111110; }
           
           /* Table of Contents */
           .toc-container {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 1.5rem 2rem;
+            background: #fafaf9;
+            border: 1px solid #e5e5e3;
+            border-radius: 10px;
+            padding: 1.5rem 1.75rem;
             margin-bottom: 2.5rem;
           }
           .toc-title {
-            font-size: 0.9rem;
+            font-size: 0.7rem;
             font-weight: 700;
-            color: #64748b;
+            color: #a1a19f;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             margin-bottom: 1rem;
           }
           .toc-list {
@@ -188,52 +188,55 @@ export default async function ArticleDetailPage({
             margin: 0;
           }
           .toc-list li {
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.45rem;
           }
           .toc-list li a {
-            color: #334155;
+            color: #555553;
             text-decoration: none;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.6;
-            transition: color 0.2s;
+            transition: color 0.15s;
           }
-          .toc-list li a:hover { color: #6366f1; }
+          .toc-list li a:hover { color: #111110; }
           .toc-list li.toc-h3 { padding-left: 1.25rem; }
-          .toc-list li.toc-h3 a { font-size: 0.875rem; color: #64748b; }
+          .toc-list li.toc-h3 a { font-size: 0.82rem; color: #a1a19f; }
           
-          /* Reading experience styles */
+          /* Article content */
           .article-content {
-            font-size: 1.125rem;
-            line-height: 1.8;
-            color: #334155;
-            font-family: -apple-system, BlinkMacSystemFont, "Noto Sans JP", "Segoe UI", sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.85;
+            color: #333332;
+            font-family: var(--font-sans);
           }
-          
+
           .article-content h2 {
-            font-size: 1.875rem;
-            font-weight: 800;
-            color: #0f172a;
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(1.5rem, 3.5vw, 2rem);
+            font-weight: 700;
+            color: #111110;
             margin-top: 3.5rem;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
             padding-bottom: 0.75rem;
-            border-bottom: 1px solid #e2e8f0;
-            line-height: 1.4;
+            border-bottom: 1px solid #e5e5e3;
+            line-height: 1.3;
+            letter-spacing: -0.02em;
             scroll-margin-top: 5rem;
           }
 
           .article-content h3 {
-            font-size: 1.5rem;
+            font-size: 1.15rem;
             font-weight: 700;
-            color: #1e293b;
+            color: #111110;
             margin-top: 2.5rem;
-            margin-bottom: 1.25rem;
-            line-height: 1.5;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            letter-spacing: -0.02em;
             scroll-margin-top: 5rem;
           }
 
           .article-content p {
             margin-bottom: 1.5rem;
-            letter-spacing: 0.02em;
+            letter-spacing: -0.005em;
           }
 
           .article-content ul, .article-content ol {
@@ -246,21 +249,69 @@ export default async function ArticleDetailPage({
           }
 
           .article-content a {
-            color: #6366f1;
+            color: #111110;
             text-decoration: underline;
-            text-underline-offset: 4px;
-            text-decoration-color: rgba(99,102,241,0.4);
-            transition: all 0.2s;
+            text-underline-offset: 3px;
+            text-decoration-color: rgba(17,17,16,0.3);
+            transition: text-decoration-color 0.15s;
           }
 
           .article-content a:hover {
-            text-decoration-color: rgba(99,102,241,1);
+            text-decoration-color: rgba(17,17,16,0.9);
           }
           
           .article-content strong {
             font-weight: 700;
-            color: #0f172a;
-            background: linear-gradient(transparent 60%, rgba(253, 224, 71, 0.4) 60%);
+            color: #111110;
+          }
+
+          .article-content table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+          }
+          .article-content th {
+            background: #f3f3f1;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 1px solid #e5e5e3;
+            color: #555553;
+            font-size: 0.82rem;
+            letter-spacing: 0.03em;
+          }
+          .article-content td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #f0f0ee;
+            color: #333332;
+          }
+          .article-content tr:last-child td { border-bottom: none; }
+
+          /* Shop card styles for BV-style articles */
+          .article-content .shop-card {
+            border: 1px solid #e5e5e3;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            background: #ffffff;
+          }
+          .article-content .shop-card h3 {
+            margin-top: 0;
+          }
+          .article-content .cta-button {
+            background: #111110 !important;
+            color: #fafaf9 !important;
+            border-radius: 6px !important;
+            font-family: var(--font-sans);
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+          }
+          .article-content .cta-button:hover {
+            background: #2a2a28 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15) !important;
           }
         `}</style>
 

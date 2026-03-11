@@ -1,0 +1,18 @@
+{
+    "manifest_version": 3,
+    "name": "Shop Thumbnail Capturer",
+    "version": "1.0",
+    "description": "Capture a clean screenshot of a shop's viewport and save it as WebP with the given slug.",
+    "permissions": [
+        "activeTab",
+        "scripting",
+        "downloads"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "icon.png"
+    },
+    "background": {
+        "service_worker": "background.js"
+    }
+}
