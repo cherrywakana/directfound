@@ -327,10 +327,10 @@ export default async function ArticleDetailPage({
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
                             {post.category && (
                                 <span style={{
-                                    fontSize: '0.72rem', fontWeight: 700, color: 'var(--cognac)',
-                                    background: 'var(--cognac-soft)', padding: '0.35rem 1.2rem',
+                                    fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-brand)',
+                                    background: 'var(--accent-brand-soft)', padding: '0.35rem 1.2rem',
                                     borderRadius: '100px', letterSpacing: '0.06em', textTransform: 'uppercase',
-                                    border: '1px solid var(--cognac-mid)',
+                                    border: '1px solid var(--accent-brand-mid)',
                                 }}>{post.category}</span>
                             )}
                             <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 500 }}>

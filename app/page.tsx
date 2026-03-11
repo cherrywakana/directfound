@@ -69,7 +69,7 @@ export default async function Home() {
           .marquee-dot {
             width: 3px;
             height: 3px;
-            background: var(--cognac);
+            background: var(--accent-brand);
             border-radius: 50%;
             flex-shrink: 0;
             opacity: 0.5;
@@ -117,7 +117,7 @@ export default async function Home() {
             font-size: 0.65rem;
             font-weight: 700;
             letter-spacing: 0.12em;
-            color: var(--cognac);
+            color: var(--accent-brand);
             margin-bottom: 0.25rem;
           }
           .cat-name-v2 {
@@ -195,7 +195,7 @@ export default async function Home() {
             margin-top: auto;
             font-size: 0.75rem;
             font-weight: 700;
-            color: var(--cognac);
+            color: var(--accent-brand);
             letter-spacing: 0.04em;
             text-transform: uppercase;
           }

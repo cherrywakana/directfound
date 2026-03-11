@@ -62,7 +62,7 @@ export default async function ShopsPage(props: any) {
           .cat-tab.active {
             background: #111110;
             color: white;
-            box-shadow: 0 10px 15px -3px rgba(17, 17, 16, 0.2), 0 0 0 2px var(--cognac-mid);
+            box-shadow: 0 10px 15px -3px rgba(17, 17, 16, 0.2), 0 0 0 2px var(--accent-brand-mid);
           }
           .cat-tab.inactive {
             background: white;

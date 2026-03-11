@@ -80,7 +80,7 @@ export default async function BrandsPage() {
                             <div key={key} id={`section-${key}`}>
                                 <h2 style={{
                                     fontSize: '2rem', fontWeight: 800, color: '#111110', marginBottom: '2rem',
-                                    borderBottom: '2px solid var(--cognac)', display: 'inline-block', paddingRight: '1rem',
+                                    borderBottom: '2px solid var(--accent-brand)', display: 'inline-block', paddingRight: '1rem',
                                     fontFamily: 'var(--font-serif)',
                                 }}>
                                     {key}
@@ -105,7 +105,7 @@ export default async function BrandsPage() {
                         ))}
                     </div>
                     <style>{`
-                        .brand-index-link:hover { border-color: var(--cognac) !important; color: var(--cognac) !important; transform: translateY(-2px); }
+                        .brand-index-link:hover { border-color: var(--accent-brand) !important; color: var(--accent-brand) !important; transform: translateY(-2px); }
                         .brand-link-card:hover { border-color: #d4d4d2 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transform: translateY(-1px); }
                     `}</style>
                 </section>

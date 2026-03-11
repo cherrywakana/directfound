@@ -92,7 +92,7 @@ export default function GuidePage() {
                                             }}
                                             className="guide-link"
                                         >
-                                            <span style={{ color: 'var(--cognac)', fontSize: '1.2rem' }}>•</span>
+                                            <span style={{ color: 'var(--accent-brand)', fontSize: '1.2rem' }}>•</span>
                                             {article.title}
                                         </Link>
                                     ))}
@@ -112,7 +112,7 @@ export default function GuidePage() {
                         </Link>
                     </div>
                     <style>{`
-                        .guide-link:hover { color: var(--cognac) !important; }
+                        .guide-link:hover { color: var(--accent-brand) !important; }
                         .guide-footer-btn:hover { background: #e8e8e6 !important; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.3); }
                     `}</style>
                 </section>
