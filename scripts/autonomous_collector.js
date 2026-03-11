@@ -134,7 +134,8 @@ const NEGATIVE_KEYWORDS = [
     'お探しのアイテムが見つかりませんでした',
     'お探しのページが見つかりません',
     'Pre-owned',
-    '中古'
+    '中古',
+    'THE OUTNETの日本サイトは営業を休止しております'
 ];
 
 async function verifyBrandPage(page, url, brandName) {
