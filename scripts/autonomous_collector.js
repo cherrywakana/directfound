@@ -242,7 +242,9 @@ async function runAutonomousCollector() {
     // 2. ブラウザを起動（Stealthモード）
     const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
-        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36'
+        userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+        locale: 'ja-JP',
+        timezoneId: 'Asia/Tokyo'
     });
     const page = await context.newPage();
 
@@ -255,20 +257,37 @@ async function runAutonomousCollector() {
             const rule = SHOP_RULES[shop.slug];
             if (!rule) continue;
 
-            const targetUrl = rule(brand.slug);
-            const isFound = await verifyBrandPage(page, targetUrl, brand.name);
+            // --- DEVELOVER DEMO: Fallback slugs if column is missing ---
+            const HARDCODED_FALLBACKS = {
+                'fear-of-god-essentials': ['essentials', 'fear-of-god'],
+                'the-north-face': ['the-north-face-co', 'tnf'],
+                'patagonia': ['patagonia-inc']
+            };
 
-            if (isFound) {
-                console.log(`  ✅ FOUND on ${shop.name}`);
+            // マルチスラッグ検索の実行
+            const slugsToTry = [brand.slug, ...(brand.search_slugs || []), ...(HARDCODED_FALLBACKS[brand.slug] || [])];
+            let foundUrl = null;
+
+            for (const s of slugsToTry) {
+                const targetUrl = rule(s);
+                const isFound = await verifyBrandPage(page, targetUrl, brand.name);
+                if (isFound) {
+                    foundUrl = targetUrl;
+                    break;
+                }
+            }
+
+            if (foundUrl) {
+                console.log(`  ✅ FOUND on ${shop.name} (URL: ${foundUrl})`);
                 await supabase.from('shop_brands').upsert({
                     shop_id: shop.id,
                     brand_id: brand.id,
-                    brand_url: targetUrl,
+                    brand_url: foundUrl,
                     status: 'found',
                     last_checked_at: new Date().toISOString()
                 }, { onConflict: 'shop_id, brand_id' });
             } else {
-                console.log(`  ❌ NOT FOUND on ${shop.name}`);
+                console.log(`  ❌ NOT FOUND on ${shop.name} (tried ${slugsToTry.length} slugs)`);
                 await supabase.from('shop_brands').upsert({
                     shop_id: shop.id,
                     brand_id: brand.id,
