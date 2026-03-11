@@ -128,7 +128,9 @@ const NEGATIVE_KEYWORDS = [
     '現在、お客様の条件に一致する項目はありません',
     '商品が見つかりません',
     '0 of 0 products',
-    '0 products'
+    '0 products',
+    'まだ商品がありません',
+    'hbx.catalog.no_products'
 ];
 
 async function verifyBrandPage(page, url, brandName) {
@@ -195,9 +197,13 @@ async function verifyBrandPage(page, url, brandName) {
                 if (foundActualProduct) break;
             }
 
-            // If we found products but NONE of them match the brand, it's likely "Recommended" or "All Products"
+            // If we found products but NONE of them match the brand, it's likely "Recommended" or "All Products" (False Positive)
             if (!foundActualProduct) {
-                // Try one last check in H1 or breadcrumbs
+                // Only fallback to H1/Breadcrumbs if there were truly NO products found with the selectors
+                const anyProductsAtAll = mainContent.querySelectorAll(productSelectors.join(',')).length > 0;
+                if (anyProductsAtAll) return false;
+
+                // Try one last check in H1 or breadcrumbs for empty category pages
                 const breadcrumbs = document.querySelector('.breadcrumbs, .breadcrumb, [class*="breadcrumb"]')?.innerText.toLowerCase() || "";
                 if (h1.includes(lowerName) || breadcrumbs.includes(lowerName)) {
                     return true;
