@@ -13,14 +13,14 @@ export default async function ShopsPage(props: any) {
 
     const categories = [
         { label: 'すべて', href: '/shops' },
-        { label: 'ストリート・スニーカー', icon: '👟', href: '/shops?category=' + encodeURIComponent('ストリート・スニーカー') },
-        { label: 'ラグジュアリー・百貨店', icon: '💎', href: '/shops?category=' + encodeURIComponent('ラグジュアリー・百貨店') },
-        { label: 'セレクト・トレンド', icon: '👗', href: '/shops?category=' + encodeURIComponent('セレクト・トレンド') },
-        { label: 'コスメ・ビューティー', icon: '💄', href: '/shops?category=' + encodeURIComponent('コスメ・ビューティー') },
-        { label: 'アウトドア', icon: '🏕️', href: '/shops?category=' + encodeURIComponent('アウトドア') },
-        { label: 'アウトレット・リセール', icon: '🏷️', href: '/shops?category=' + encodeURIComponent('アウトレット・リセール') },
-        { label: 'アジア・トレンド', icon: '🇰🇷', href: '/shops?category=' + encodeURIComponent('アジア・トレンド') },
-        { label: 'ヴィンテージ・古着', icon: '🧥', href: '/shops?category=' + encodeURIComponent('ヴィンテージ・古着') },
+        { label: 'ストリート・スニーカー', href: '/shops?category=' + encodeURIComponent('ストリート・スニーカー') },
+        { label: 'ラグジュアリー・百貨店', href: '/shops?category=' + encodeURIComponent('ラグジュアリー・百貨店') },
+        { label: 'セレクト・トレンド', href: '/shops?category=' + encodeURIComponent('セレクト・トレンド') },
+        { label: 'コスメ・ビューティー', href: '/shops?category=' + encodeURIComponent('コスメ・ビューティー') },
+        { label: 'アウトドア', href: '/shops?category=' + encodeURIComponent('アウトドア') },
+        { label: 'アウトレット・リセール', href: '/shops?category=' + encodeURIComponent('アウトレット・リセール') },
+        { label: 'アジア・トレンド', href: '/shops?category=' + encodeURIComponent('アジア・トレンド') },
+        { label: 'ヴィンテージ・古着', href: '/shops?category=' + encodeURIComponent('ヴィンテージ・古着') },
     ]
 
     return (
@@ -47,33 +47,31 @@ export default async function ShopsPage(props: any) {
             box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.15);
           }
           .cat-tab {
-            padding: 0.7rem 1.4rem;
-            border-radius: 14px;
+            padding: 0.6rem 1.6rem;
+            border-radius: 9999px;
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             font-weight: 600;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             white-space: nowrap;
-            border: 1px solid transparent;
-            display: flex;
+            letter-spacing: -0.01em;
+            display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
+            justify-content: center;
           }
           .cat-tab.active {
             background: #111110;
-            color: white;
-            box-shadow: 0 10px 15px -3px rgba(17, 17, 16, 0.2), 0 0 0 2px var(--accent-brand-mid);
+            color: #fafaf9;
+            box-shadow: 0 4px 12px rgba(17, 17, 16, 0.15);
           }
           .cat-tab.inactive {
-            background: white;
+            background: #f1f1ef;
             color: #6b6b69;
-            border-color: #e5e5e3;
           }
           .cat-tab.inactive:hover {
-            background: #fafaf9;
-            border-color: #d4d4d2;
+            background: #e5e5e0;
             color: #111110;
-            transform: translateY(-1px);
+            transform: translateY(-2px) scale(1.02);
           }
           @keyframes pulse {
             0%, 100% { opacity: 1; }
@@ -105,7 +103,6 @@ export default async function ShopsPage(props: any) {
                                     href={cat.href}
                                     className={`cat-tab ${isActive ? 'active' : 'inactive'}`}
                                 >
-                                    {cat.icon && <span style={{ fontSize: '1.2rem' }}>{cat.icon}</span>}
                                     {cat.label}
                                 </Link>
                             );
