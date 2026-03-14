@@ -8,9 +8,6 @@
     "start": "next start",
     "lint": "eslint",
     "sync-affiliates": "node scripts/sync_affiliates.js",
-    "upload-thumbnails": "node scripts/upload_thumbnails.js",
-    "update-shipping": "node scripts/update_shipping_status.js",
-    "auto-collect": "node scripts/auto_collect_brands.js",
     "collect-brands": "node scripts/autonomous_collector.js"
   },
   "dependencies": {
