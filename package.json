@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "sync-affiliates": "node scripts/sync_affiliates.js",
+    "sync-thumbnails": "node scripts/sync_thumbnails.js",
     "collect-brands": "node scripts/autonomous_collector.js"
   },
   "dependencies": {
