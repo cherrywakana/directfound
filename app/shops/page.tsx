@@ -18,6 +18,7 @@ export default async function ShopsPage(props: any) {
         { label: 'スポーツ・アウトドア', href: '/shops?category=' + encodeURIComponent('スポーツ・アウトドア') },
         { label: '自転車・パーツ', href: '/shops?category=' + encodeURIComponent('自転車・パーツ') },
         { label: '韓国・アジアトレンド', href: '/shops?category=' + encodeURIComponent('韓国・アジアトレンド') },
+        { label: 'コスメ・ビューティー', href: '/shops?category=' + encodeURIComponent('コスメ・ビューティー') },
     ]
 
     return (
