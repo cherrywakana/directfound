@@ -13,18 +13,10 @@ export default async function ShopsPage(props: any) {
 
     const categories = [
         { label: 'すべて', href: '/shops' },
+        { label: 'ラグジュアリー・ハイブランド', href: '/shops?category=' + encodeURIComponent('ラグジュアリー・ハイブランド') },
         { label: 'ストリート・スニーカー', href: '/shops?category=' + encodeURIComponent('ストリート・スニーカー') },
-        { label: 'ラグジュアリー・百貨店', href: '/shops?category=' + encodeURIComponent('ラグジュアリー・百貨店') },
-        { label: 'セレクト・トレンド', href: '/shops?category=' + encodeURIComponent('セレクト・トレンド') },
-        { label: 'コスメ・ビューティー', href: '/shops?category=' + encodeURIComponent('コスメ・ビューティー') },
-        { label: 'アウトドア', href: '/shops?category=' + encodeURIComponent('アウトドア') },
-        { label: 'アウトレット・リセール', href: '/shops?category=' + encodeURIComponent('アウトレット・リセール') },
-        { label: 'アジア・トレンド', href: '/shops?category=' + encodeURIComponent('アジア・トレンド') },
-        { label: '韓国ファッション', href: '/shops?category=' + encodeURIComponent('韓国ファッション') },
-        { label: '中国ファッション', href: '/shops?category=' + encodeURIComponent('中国ファッション') },
-        { label: 'アジア・デザイナーズ', href: '/shops?category=' + encodeURIComponent('アジア・デザイナーズ') },
-        { label: 'ヴィンテージ・古着', href: '/shops?category=' + encodeURIComponent('ヴィンテージ・古着') },
-        { label: 'サイクル・スポーツ', href: '/shops?category=' + encodeURIComponent('サイクル・スポーツ') },
+        { label: 'スポーツ・アウトドア', href: '/shops?category=' + encodeURIComponent('スポーツ・アウトドア') },
+        { label: '韓国・アジアトレンド', href: '/shops?category=' + encodeURIComponent('韓国・アジアトレンド') },
     ]
 
     return (
