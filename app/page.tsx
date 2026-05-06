@@ -532,6 +532,7 @@ export default async function Home() {
                           alt={shop.name}
                           fill
                           priority={index < 2}
+                          unoptimized
                           sizes="(max-width: 980px) 100vw, 50vw"
                           style={{ objectFit: 'cover' }}
                         />

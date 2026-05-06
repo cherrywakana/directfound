@@ -260,6 +260,7 @@ export default async function LegacyPathPage({
                                     alt={post.title} 
                                     fill
                                     priority
+                                    unoptimized
                                     sizes="(max-width: 800px) 100vw, 800px"
                                     style={{ objectFit: 'cover' }} 
                                 />
