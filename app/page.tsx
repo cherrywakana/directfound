@@ -341,11 +341,11 @@ export default async function Home() {
         <section className="search-hero home-shell">
           <div className="home-container search-hero-layout">
             <div className="search-hero-copy">
-              <div className="fade-up delay-1">
+              <div>
                 <span className="tag">shop search</span>
               </div>
 
-              <div className="fade-up delay-2">
+              <div>
                 <h1
                   style={{
                     fontFamily: 'var(--font-serif)',
@@ -362,11 +362,11 @@ export default async function Home() {
                 </h1>
               </div>
 
-              <p className="search-lead fade-up delay-3">
+              <p className="search-lead">
                 ショップ名でも、カテゴリでも探せます。日本から使いやすい海外通販サイトを一覧でチェックできます。
               </p>
 
-              <div className="search-form-shell fade-up delay-4">
+              <div className="search-form-shell">
                 <form action="/shops" className="search-form">
                   <label className="search-field">
                     <span className="search-label">キーワード</span>
@@ -402,7 +402,7 @@ export default async function Home() {
                 </div>
               </div>
 
-              <div className="search-meta fade-up delay-5">
+              <div className="search-meta">
                 <div>
                   <div style={{ fontFamily: 'var(--font-serif)', fontSize: '1.75rem', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1 }}>
                     {formatCount(shopCountResult.count, '80+')}
@@ -422,7 +422,7 @@ export default async function Home() {
               </div>
             </div>
 
-            <aside className="hero-panel fade-up delay-4">
+            <aside className="hero-panel">
               <p className="section-label" style={{ marginBottom: 0 }}>人気ショップ</p>
               <h2 style={{ fontSize: '1.35rem', letterSpacing: '-0.03em', lineHeight: 1.3 }}>
                 よく見られている候補
@@ -507,7 +507,7 @@ export default async function Home() {
               </div>
 
               <div className="results-grid">
-                {featuredShops.map((shop) => (
+                {featuredShops.map((shop, index) => (
                   <article key={shop.id} className="result-card" style={{ position: 'relative', display: 'flex', flexDirection: 'column' }}>
                     {/* 1. 最背面に公式サイトへのリンクを配置 */}
                     <a 
@@ -531,7 +531,7 @@ export default async function Home() {
                           src={shop.image_url}
                           alt={shop.name}
                           fill
-                          unoptimized
+                          priority={index < 2}
                           sizes="(max-width: 980px) 100vw, 50vw"
                           style={{ objectFit: 'cover' }}
                         />

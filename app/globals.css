@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;0,14..32,800;0,14..32,900;1,14..32,400&family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Noto+Serif+JP:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
-
 :root {
   /* Color System */
   --bg:        #e9e9e5; /* Stronger contrast for desktop monitors */
@@ -17,8 +15,8 @@
   --accent-brand-mid:  #dcdcd8;
 
   /* Typography */
-  --font-sans: 'Inter', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --font-serif: 'Playfair Display', 'Noto Serif JP', 'Source Han Serif JP', Georgia, serif;
+  --font-sans: var(--font-inter), var(--font-noto-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-serif: var(--font-playfair), var(--font-noto-serif), 'Source Han Serif JP', Georgia, serif;
 
   /* Motion */
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);

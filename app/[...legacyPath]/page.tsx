@@ -2,6 +2,7 @@ import { supabase } from '@/lib/supabase'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Metadata } from 'next'
 import { CORE_GUIDE_LINKS } from '@/lib/shopInsights'
 import { addExternalLinkAttributes, formatJapaneseDate, getArticleExcerpt, getLastVerifiedAt, sanitizeArticleHtml } from '@/lib/utils'
@@ -253,8 +254,15 @@ export default async function LegacyPathPage({
                         }}>{post.title}</h1>
 
                         {post.thumbnail_url && (
-                            <div style={{ width: '100%', aspectRatio: '16/9', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)', backgroundColor: '#e2e8f0' }}>
-                                <img src={post.thumbnail_url} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <div style={{ width: '100%', aspectRatio: '16/9', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.05)', backgroundColor: '#e2e8f0', position: 'relative' }}>
+                                <Image 
+                                    src={post.thumbnail_url} 
+                                    alt={post.title} 
+                                    fill
+                                    priority
+                                    sizes="(max-width: 800px) 100vw, 800px"
+                                    style={{ objectFit: 'cover' }} 
+                                />
                             </div>
                         )}
                     </div>

@@ -1,7 +1,33 @@
 import type { Metadata } from 'next'
 import { GoogleAnalytics } from '@next/third-parties/google'
+import { Inter, Playfair_Display, Noto_Sans_JP, Noto_Serif_JP } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+})
+
+const playfair = Playfair_Display({
+  subsets: ['latin'],
+  variable: '--font-playfair',
+  display: 'swap',
+})
+
+const notoSansJP = Noto_Sans_JP({
+  subsets: ['latin'],
+  variable: '--font-noto-sans',
+  display: 'swap',
+})
+
+const notoSerifJP = Noto_Serif_JP({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  variable: '--font-noto-serif',
+  display: 'swap',
+})
 
 const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-HJ20PZTJNT'
 
@@ -33,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ja">
+    <html lang="ja" className={`${inter.variable} ${playfair.variable} ${notoSansJP.variable} ${notoSerifJP.variable}`}>
       <body>
         {children}
         <Script 
