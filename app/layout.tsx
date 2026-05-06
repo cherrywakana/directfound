@@ -54,7 +54,7 @@ export default function RootLayout({
         )}
         <Script 
           src="https://s.skimresources.com/js/156009X1622316.skimlinks.js" 
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
       </body>
     </html>

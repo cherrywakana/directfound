@@ -28,7 +28,47 @@ export function sanitizeArticleHtml(html: string): string {
     if (!html) return ''
 
     const withoutBlockedTags = stripBlockedTags(html)
-    return stripDangerousAttributes(withoutBlockedTags)
+    const sanitized = stripDangerousAttributes(withoutBlockedTags)
+    return optimizeHtmlContent(sanitized)
+}
+
+/**
+ * Optimize raw HTML content from CMS:
+ * 1. Rewrite <img> src to use Next.js image optimizer for resizing and caching.
+ * 2. Add loading="lazy" to all images except the first one.
+ * 3. Add fetchpriority="high" to the first image.
+ */
+export function optimizeHtmlContent(html: string): string {
+    if (!html) return ''
+
+    let imageCount = 0
+    // Improved regex to handle various attribute orders and whitespace more robustly
+    return html.replace(/<img\b([\s\S]*?)>/gi, (tag, attrs) => {
+        imageCount++
+        
+        const srcMatch = attrs.match(/src=["']([^"']+)["']/i)
+        if (!srcMatch) return tag
+        
+        const src = srcMatch[1]
+        if (src.startsWith('/_next/image') || src.startsWith('data:')) return tag
+
+        // Use 640px which matches the common display size and fixes the "too large" warning
+        const optimizedSrc = `/_next/image?url=${encodeURIComponent(src)}&w=640&q=75`
+        
+        let newAttrs = attrs.replace(/src=["']([^"']+)["']/i, `src="${optimizedSrc}"`)
+        
+        if (imageCount === 1) {
+            if (!/fetchpriority=/i.test(newAttrs)) {
+                newAttrs += ' fetchpriority="high"'
+            }
+        } else {
+            if (!/loading=/i.test(newAttrs)) {
+                newAttrs += ' loading="lazy"'
+            }
+        }
+        
+        return `<img${newAttrs}>`
+    })
 }
 
 /**
