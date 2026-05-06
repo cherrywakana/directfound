@@ -49,13 +49,13 @@ export default function RootLayout({
     <html lang="ja" className={`${inter.variable} ${playfair.variable}`}>
       <body>
         {children}
-        <Script 
-          src="https://s.skimresources.com/js/156009X1622316.skimlinks.js" 
-          strategy="lazyOnload"
-        />
         {GA_ID && (
           <GoogleAnalytics gaId={GA_ID} />
         )}
+        <Script 
+          src="https://s.skimresources.com/js/156009X1622316.skimlinks.js" 
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )
