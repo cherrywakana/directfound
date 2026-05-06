@@ -486,7 +486,7 @@ export default async function Home() {
 
         {featuredShops.length > 0 && (
           <section
-            className="home-shell"
+            className="home-shell featured-shops-section"
             style={{
               paddingBlock: 'clamp(4rem, 7vw, 5.5rem)',
               borderBottom: '1px solid #e5e5e3',
@@ -532,6 +532,7 @@ export default async function Home() {
                           alt={shop.name}
                           fill
                           priority={index < 2}
+                          fetchPriority={index < 2 ? "high" : undefined}
                           sizes="(max-width: 980px) 100vw, 50vw"
                           style={{ objectFit: 'cover' }}
                         />
@@ -574,7 +575,7 @@ export default async function Home() {
         )}
 
         <section
-          className="home-shell"
+          className="home-shell categories-entry-section"
           style={{
             paddingBlock: 'clamp(3.8rem, 7vw, 5rem)',
             borderBottom: '1px solid #e5e5e3',

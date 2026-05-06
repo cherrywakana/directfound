@@ -31,7 +31,7 @@
 }
 
 /* Optimization: Skip rendering for off-screen elements */
-footer, .article-content {
+footer, .article-content, .featured-shops-section, .categories-entry-section {
   content-visibility: auto;
   contain-intrinsic-size: 1px 1000px;
 }
