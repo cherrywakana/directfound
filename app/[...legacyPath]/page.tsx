@@ -218,9 +218,9 @@ export default async function LegacyPathPage({
           .article-content a { color: #111110; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(17,17,16,0.3); transition: text-decoration-color 0.15s; }
           .article-content a:hover { text-decoration-color: rgba(17,17,16,0.9); }
           .article-content strong { font-weight: 700; color: #111110; }
-          .article-content table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 1.5rem; }
-          .article-content th { background: #f3f3f1; padding: 0.75rem 1rem; text-align: left; font-weight: 600; border-bottom: 1px solid #e5e5e3; color: #555553; font-size: 0.82rem; letter-spacing: 0.03em; }
-          .article-content td { padding: 0.75rem 1rem; border-bottom: 1px solid #f0f0ee; color: #333332; }
+          .article-content table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-bottom: 1.5rem; table-layout: auto; }
+          .article-content th { background: #f3f3f1; padding: 0.75rem 0.5rem; text-align: left; font-weight: 600; border-bottom: 1px solid #e5e5e3; color: #555553; font-size: 0.82rem; letter-spacing: 0.03em; }
+          .article-content td { padding: 0.75rem 0.5rem; border-bottom: 1px solid #f0f0ee; color: #333332; word-break: break-word; }
           .article-content tr:last-child td { border-bottom: none; }
           .article-content .shop-shot { width: 100%; display: block; margin: 0 0 1rem; border-radius: 10px; border: 1px solid #e5e5e3; background: #f8fafc; }
           .article-content .cta-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; padding: 0.85rem 1.2rem; margin-bottom: 1rem; background: #111110 !important; color: #fafaf9 !important; border-radius: 6px !important; font-family: var(--font-sans); font-weight: 600; letter-spacing: -0.01em; text-decoration: none !important; transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; }
