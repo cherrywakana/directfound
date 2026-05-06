@@ -34,9 +34,43 @@ export default async function BrandsPage() {
         return a.localeCompare(b)
     })
 
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'CollectionPage',
+                '@id': 'https://original-price.com/brands#collection',
+                name: '取り扱いブランド一覧',
+                description: 'Original Priceで紹介している海外通販サイトで取り扱いのあるブランド一覧です。',
+                url: 'https://original-price.com/brands',
+            },
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    {
+                        '@type': 'ListItem',
+                        position: 1,
+                        name: 'ホーム',
+                        item: 'https://original-price.com',
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 2,
+                        name: 'ブランド一覧',
+                        item: 'https://original-price.com/brands',
+                    },
+                ],
+            },
+        ],
+    }
+
     return (
         <>
             <Header />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main style={{ fontFamily: 'var(--font-sans)', background: 'var(--bg)', minHeight: '100vh' }}>
 
                 {/* Hero Section */}

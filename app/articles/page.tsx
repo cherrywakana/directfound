@@ -12,9 +12,43 @@ export default async function ArticlesPage() {
         .select('id, slug, title, thumbnail_url, category, created_at')
         .order('created_at', { ascending: false })
 
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'CollectionPage',
+                '@id': 'https://original-price.com/articles#collection',
+                name: '海外通販マガジン',
+                description: 'ブランド情報や海外通販のコツなど、賢くお買い物するための解説・コラム集です。',
+                url: 'https://original-price.com/articles',
+            },
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    {
+                        '@type': 'ListItem',
+                        position: 1,
+                        name: 'ホーム',
+                        item: 'https://original-price.com',
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 2,
+                        name: '記事一覧',
+                        item: 'https://original-price.com/articles',
+                    },
+                ],
+            },
+        ],
+    }
+
     return (
         <>
             <Header />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', background: '#f8fafc', minHeight: '100vh' }}>
 
                 {/* Hero Section */}

@@ -42,9 +42,49 @@ export default async function ShopsPage(props: ShopsPageProps) {
     const searchParams = await props.searchParams;
     const category = getSingleParam(searchParams?.category);
 
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'CollectionPage',
+                '@id': `https://original-price.com/shops${category ? `?category=${encodeURIComponent(category)}` : ''}#collection`,
+                name: category ? `${category}の海外通販サイト一覧` : '海外通販サイト一覧',
+                description: '日本発送に対応した世界中の有力海外通販サイトを一覧でまとめて紹介。',
+                url: `https://original-price.com/shops${category ? `?category=${encodeURIComponent(category)}` : ''}`,
+            },
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    {
+                        '@type': 'ListItem',
+                        position: 1,
+                        name: 'ホーム',
+                        item: 'https://original-price.com',
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 2,
+                        name: 'ショップ一覧',
+                        item: 'https://original-price.com/shops',
+                    },
+                    ...(category ? [{
+                        '@type': 'ListItem',
+                        position: 3,
+                        name: category,
+                        item: `https://original-price.com/shops?category=${encodeURIComponent(category)}`,
+                    }] : []),
+                ],
+            },
+        ],
+    }
+
     return (
         <>
             <Header />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main style={{ fontFamily: 'var(--font-sans)', minHeight: '100vh', background: 'var(--bg)' }}>
                 <style>{`
           .cat-tab {
