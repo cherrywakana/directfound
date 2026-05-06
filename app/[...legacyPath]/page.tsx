@@ -166,28 +166,62 @@ export default async function LegacyPathPage({
         .map((brandSlug) => linkedBrands?.find((brand) => brand.slug === brandSlug))
         .find(Boolean)
 
+    const breadcrumbLd = {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+            {
+                '@type': 'ListItem',
+                position: 1,
+                name: 'ホーム',
+                item: 'https://original-price.com',
+            },
+            {
+                '@type': 'ListItem',
+                position: 2,
+                name: '記事一覧',
+                item: 'https://original-price.com/articles',
+            },
+            {
+                '@type': 'ListItem',
+                position: 3,
+                name: post.title,
+                item: `https://original-price.com/${slug}`,
+            },
+        ],
+    }
+
     const jsonLd = {
         '@context': 'https://schema.org',
-        '@type': 'Article',
-        headline: post.title,
-        description: post.content?.replace(/<[^>]*>/g, '')?.replace(/\s+/g, ' ')?.trim()?.slice(0, 200),
-        image: post.thumbnail_url || undefined,
-        datePublished: post.created_at,
-        dateModified: post.updated_at || post.created_at,
-        author: {
-            '@type': 'Organization',
-            name: 'Original Price',
-            url: 'https://original-price.com',
-        },
-        publisher: {
-            '@type': 'Organization',
-            name: 'Original Price',
-            url: 'https://original-price.com',
-        },
-        mainEntityOfPage: {
-            '@type': 'WebPage',
-            '@id': `https://original-price.com/${slug}`,
-        },
+        '@graph': [
+            {
+                '@type': 'Article',
+                headline: post.title,
+                description: post.content?.replace(/<[^>]*>/g, '')?.replace(/\s+/g, ' ')?.trim()?.slice(0, 200),
+                image: post.thumbnail_url || undefined,
+                datePublished: post.created_at,
+                dateModified: post.updated_at || post.created_at,
+                author: {
+                    '@type': 'Organization',
+                    name: 'Original Price',
+                    url: 'https://original-price.com',
+                },
+                publisher: {
+                    '@type': 'Organization',
+                    name: 'Original Price',
+                    url: 'https://original-price.com',
+                    logo: {
+                        '@type': 'ImageObject',
+                        url: 'https://original-price.com/logo.png',
+                    },
+                },
+                mainEntityOfPage: {
+                    '@type': 'WebPage',
+                    '@id': `https://original-price.com/${slug}`,
+                },
+            },
+            breadcrumbLd,
+        ],
     }
 
     return (

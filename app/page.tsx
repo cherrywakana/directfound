@@ -57,9 +57,56 @@ export default async function Home() {
 
   const featuredShops = (featuredShopsResult.data ?? []) as FeaturedShop[]
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': 'https://original-price.com/#website',
+        url: 'https://original-price.com',
+        name: 'Original Price',
+        description: '海外通販・個人輸入の総合ディレクトリ。200以上のショップとブランドを網羅。',
+        publisher: { '@id': 'https://original-price.com/#organization' },
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: 'https://original-price.com/search?q={search_term_string}',
+          },
+          'query-input': 'required name=search_term_string',
+        },
+        inLanguage: 'ja',
+      },
+      {
+        '@type': 'Organization',
+        '@id': 'https://original-price.com/#organization',
+        name: 'Original Price',
+        url: 'https://original-price.com',
+        logo: {
+          '@type': 'ImageObject',
+          inLanguage: 'ja',
+          '@id': 'https://original-price.com/#logo',
+          url: 'https://original-price.com/logo.png', // Replace with actual logo URL if available
+          contentUrl: 'https://original-price.com/logo.png',
+          width: 512,
+          height: 512,
+          caption: 'Original Price',
+        },
+        image: { '@id': 'https://original-price.com/#logo' },
+        sameAs: [
+          // Add SNS links here if available
+        ],
+      },
+    ],
+  }
+
   return (
     <>
       <Header />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main id="main-content">
         <div style={{ display: 'none' }}>Impact-Site-Verification: 204b2504-8f49-41e6-b979-1a1077b19bdb</div>
 

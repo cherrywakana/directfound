@@ -94,9 +94,54 @@ export default async function ShopDetailPage({
     const shopTakeaways = getShopTakeaways(shop)
     const shopChecklist = getShopChecklist(shop)
 
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'Store',
+                '@id': `https://original-price.com/shops/${shop.slug}#store`,
+                name: shop.name,
+                description: shop.description || lead,
+                image: shop.image_url || undefined,
+                url: shop.url,
+                address: {
+                    '@type': 'PostalAddress',
+                    addressCountry: shop.country || undefined,
+                },
+            },
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    {
+                        '@type': 'ListItem',
+                        position: 1,
+                        name: 'ホーム',
+                        item: 'https://original-price.com',
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 2,
+                        name: 'ショップ一覧',
+                        item: 'https://original-price.com/shops',
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 3,
+                        name: shop.name,
+                        item: `https://original-price.com/shops/${shop.slug}`,
+                    },
+                ],
+            },
+        ],
+    }
+
     return (
         <>
             <Header />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main style={{ background: 'var(--bg)', color: 'var(--text-primary)', overflow: 'hidden' }}>
                 <style>{`
                     .hero-section {

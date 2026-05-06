@@ -105,9 +105,48 @@ export default async function BrandDetailPage({
     const lastVerifiedAt = getLastVerifiedAt(availableShops[0]) || getLastVerifiedAt(brand)
     const featuredShops = availableShops.slice(0, 3)
 
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'Brand',
+                '@id': `https://original-price.com/brands/${brand.slug}#brand`,
+                name: brand.name,
+                url: `https://original-price.com/brands/${brand.slug}`,
+            },
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    {
+                        '@type': 'ListItem',
+                        position: 1,
+                        name: 'ホーム',
+                        item: 'https://original-price.com',
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 2,
+                        name: 'ブランド一覧',
+                        item: 'https://original-price.com/brands',
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 3,
+                        name: brand.name,
+                        item: `https://original-price.com/brands/${brand.slug}`,
+                    },
+                ],
+            },
+        ],
+    }
+
     return (
         <>
             <Header />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', background: '#f8fafc', minHeight: '100vh' }}>
 
                 <section style={{
