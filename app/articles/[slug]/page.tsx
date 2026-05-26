@@ -3,6 +3,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import type { Metadata } from 'next'
 import { marked } from 'marked'
 import { CORE_GUIDE_LINKS } from '@/lib/shopInsights'
@@ -147,9 +148,9 @@ export default async function ArticleDetailPage({
           .post-body li { margin-bottom: 0.8rem; padding-left: 0.4rem; }
           .post-body ul { list-style: none; }
           .post-body ul li::before { content: "•"; color: #a1a19f; font-weight: bold; display: inline-block; width: 1.2em; margin-left: -1.2em; }
-          .post-body table { width: 100%; margin: 3rem 0; border-collapse: collapse; font-size: 0.9rem; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+          .post-body table { width: 100%; margin: 3rem 0; border-collapse: collapse; font-size: 0.9rem; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; table-layout: auto; }
           .post-body th { background: #111110; color: white; text-align: left; padding: 1rem 1.25rem; font-weight: 700; }
-          .post-body td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-soft); vertical-align: middle; }
+          .post-body td { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border-soft); vertical-align: middle; word-break: break-word; }
           .post-body tr:nth-child(even) { background: #fafaf9; }
           .post-body tr:hover { background: #f1f1ef; }
           .next-action { margin-top: 6rem; padding: 4rem; background: #fafaf9; border-radius: 32px; border: 1px solid var(--border); }
@@ -164,8 +165,16 @@ export default async function ArticleDetailPage({
                         </div>
                         <h1 style={{ fontSize: 'clamp(2.2rem, 6vw, 3.5rem)', fontWeight: 850, letterSpacing: '-0.04em', lineHeight: 1.15, color: '#111110' }}>{post.title}</h1>
                         {post.thumbnail_url && (
-                            <div className="hero-img-wrap">
-                                <img src={post.thumbnail_url} alt={post.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                            <div className="hero-img-wrap" style={{ position: 'relative' }}>
+                                <Image
+                                    src={post.thumbnail_url}
+                                    alt={post.title}
+                                    fill
+                                    priority
+                                    fetchPriority="high"
+                                    sizes="(max-width: 850px) 100vw, 850px"
+                                    style={{ objectFit: 'cover' }}
+                                />
                             </div>
                         )}
                     </div>
@@ -186,7 +195,7 @@ export default async function ArticleDetailPage({
                             </nav>
                         )}
                         
-                        <div className="post-body" dangerouslySetInnerHTML={{ __html: contentWithIds }} />
+                        <div className="post-body article-content" dangerouslySetInnerHTML={{ __html: contentWithIds }} />
 
                         <div className="next-action">
                             <h2 style={{ fontSize: '1.8rem', fontWeight: 850, marginBottom: '2rem', marginTop: 0, border: 'none' }}>Next Movement</h2>
