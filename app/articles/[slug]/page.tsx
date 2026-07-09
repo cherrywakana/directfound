@@ -9,6 +9,8 @@ import { marked } from 'marked'
 import { CORE_GUIDE_LINKS } from '@/lib/shopInsights'
 import { addExternalLinkAttributes, formatJapaneseDate, getArticleExcerpt, getLastVerifiedAt, sanitizeArticleHtml } from '@/lib/utils'
 
+const SITE_URL = 'https://original-price.com'
+
 export async function generateMetadata({
     params,
 }: {
@@ -26,14 +28,30 @@ export async function generateMetadata({
         return { title: '記事が見つかりません | Original Price' }
     }
 
-    const plainText = getArticleExcerpt(post.content, 120)
+    const rawHtml = marked.parse(post.content || '') as string
+    const sanitizedContent = sanitizeArticleHtml(rawHtml)
+    const plainText = getArticleExcerpt(sanitizedContent, 140)
+    const canonicalPath = `/articles/${slug}`
+
     return {
         title: `${post.title} | Original Price`,
         description: plainText,
+        alternates: {
+            canonical: canonicalPath,
+        },
         openGraph: {
             title: post.title,
             description: plainText,
-            images: post.thumbnail_url ? [{ url: post.thumbnail_url }] : [],
+            type: 'article',
+            url: `${SITE_URL}${canonicalPath}`,
+            siteName: 'Original Price',
+            images: post.thumbnail_url ? [{ url: post.thumbnail_url, alt: post.title }] : [],
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: post.title,
+            description: plainText,
+            images: post.thumbnail_url ? [post.thumbnail_url] : [],
         },
     }
 }
@@ -76,6 +94,38 @@ function extractLinkedSlugs(html: string, entity: 'shops' | 'brands'): string[] 
     return matches.filter((slug, index) => matches.indexOf(slug) === index)
 }
 
+function stripHtml(html: string): string {
+    return html
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/&nbsp;/g, ' ')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/\s+/g, ' ')
+        .trim()
+}
+
+function extractFaqItems(html: string): { question: string; answer: string }[] {
+    const faqSectionMatch = html.match(/<h[2-3][^>]*>.*?(?:faq|FAQ|よくある質問).*?<\/h[2-3]>([\s\S]*)/i)
+    if (!faqSectionMatch) return []
+
+    const faqRegion = faqSectionMatch[1]
+    const questionPattern = /<h3[^>]*>(.*?)<\/h3>([\s\S]*?)(?=<h[2-3][^>]*>|$)/gi
+    const faqs: { question: string; answer: string }[] = []
+    let match: RegExpExecArray | null
+
+    while ((match = questionPattern.exec(faqRegion)) !== null) {
+        const question = stripHtml(match[1])
+        const answer = getArticleExcerpt(match[2], 220)
+
+        if (question && answer) {
+            faqs.push({ question, answer })
+        }
+    }
+
+    return faqs.slice(0, 8)
+}
+
 export default async function ArticleDetailPage({
     params,
 }: {
@@ -112,6 +162,10 @@ export default async function ArticleDetailPage({
     const headings = extractHeadings(sanitizedContent)
     const contentWithLinks = addExternalLinkAttributes(sanitizedContent)
     const contentWithIds = injectHeadingIds(contentWithLinks, headings)
+    const plainDescription = getArticleExcerpt(contentWithIds, 180)
+    const lastVerifiedAt = getLastVerifiedAt(post)
+    const articleUrl = `${SITE_URL}/articles/${slug}`
+    const faqItems = extractFaqItems(contentWithIds)
 
     const [{ data: linkedShops }, { data: linkedBrands }] = await Promise.all([
         linkedShopSlugs.length > 0
@@ -122,9 +176,77 @@ export default async function ArticleDetailPage({
             : Promise.resolve({ data: [] }),
     ])
 
+    const structuredData = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'Article',
+                headline: post.title,
+                description: plainDescription,
+                image: post.thumbnail_url || undefined,
+                datePublished: post.created_at,
+                dateModified: lastVerifiedAt || post.created_at,
+                inLanguage: 'ja-JP',
+                author: {
+                    '@type': 'Organization',
+                    name: 'Original Price',
+                    url: SITE_URL,
+                },
+                publisher: {
+                    '@type': 'Organization',
+                    name: 'Original Price',
+                    url: SITE_URL,
+                },
+                mainEntityOfPage: articleUrl,
+            },
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    {
+                        '@type': 'ListItem',
+                        position: 1,
+                        name: 'ホーム',
+                        item: SITE_URL,
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 2,
+                        name: '記事一覧',
+                        item: `${SITE_URL}/articles`,
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 3,
+                        name: post.title,
+                        item: articleUrl,
+                    },
+                ],
+            },
+            ...(faqItems.length > 0
+                ? [{
+                    '@type': 'FAQPage',
+                    mainEntity: faqItems.map((faq) => ({
+                        '@type': 'Question',
+                        name: faq.question,
+                        acceptedAnswer: {
+                            '@type': 'Answer',
+                            text: faq.answer,
+                        },
+                    })),
+                }]
+                : []),
+        ],
+    }
+
+    const relatedGuides = CORE_GUIDE_LINKS.filter((guide) => guide.href !== `/articles/${slug}`)
+
     return (
         <>
             <Header />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+            />
             <main style={{ background: 'white', minHeight: '100vh' }}>
                 <style>{`
           .article-header { padding: clamp(7rem, 10vw, 9rem) clamp(1.5rem, 5vw, 4rem) 4rem; background: var(--bg); border-bottom: 1px solid var(--border); }
@@ -159,9 +281,18 @@ export default async function ArticleDetailPage({
                 <article className="article-header">
                     <div style={{ maxWidth: '850px', margin: '0 auto' }}>
                         <Link href="/articles" className="back-link">← BACK TO ARTICLES</Link>
+                        <nav aria-label="Breadcrumb" style={{ marginBottom: '1.5rem' }}>
+                            <ol style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.55rem', fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
+                                <li><Link href="/" style={{ color: 'inherit', textDecoration: 'none' }}>ホーム</Link></li>
+                                <li aria-hidden="true">/</li>
+                                <li><Link href="/articles" style={{ color: 'inherit', textDecoration: 'none' }}>記事一覧</Link></li>
+                                <li aria-hidden="true">/</li>
+                                <li style={{ color: '#111110', fontWeight: 700 }}>{post.title}</li>
+                            </ol>
+                        </nav>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
                             <span style={{ fontSize: '0.7rem', fontWeight: 800, background: '#111110', color: 'white', padding: '0.3rem 0.8rem', borderRadius: '4px', letterSpacing: '0.05em' }}>{post.category || 'GUIDE'}</span>
-                            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 500 }}>{new Date(post.created_at).toLocaleDateString('ja-JP')}</span>
+                            <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 500 }}>最終確認 {formatJapaneseDate(lastVerifiedAt) || formatJapaneseDate(post.created_at) || '未登録'}</span>
                         </div>
                         <h1 style={{ fontSize: 'clamp(2.2rem, 6vw, 3.5rem)', fontWeight: 850, letterSpacing: '-0.04em', lineHeight: 1.15, color: '#111110' }}>{post.title}</h1>
                         {post.thumbnail_url && (
@@ -196,6 +327,53 @@ export default async function ArticleDetailPage({
                         )}
                         
                         <div className="post-body article-content" dangerouslySetInnerHTML={{ __html: contentWithIds }} />
+
+                        {(linkedShops?.length || linkedBrands?.length || relatedGuides.length > 0) && (
+                            <section style={{ marginTop: '4rem', display: 'grid', gap: '1.25rem' }}>
+                                {linkedShops && linkedShops.length > 0 && (
+                                    <div style={{ background: '#fafaf9', border: '1px solid var(--border)', borderRadius: '20px', padding: '1.5rem' }}>
+                                        <h2 style={{ fontSize: '1.25rem', margin: '0 0 1rem', border: 'none' }}>関連記事で触れているショップ</h2>
+                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0.9rem' }}>
+                                            {linkedShops.slice(0, 6).map((shop) => (
+                                                <Link key={shop.slug} href={`/shops/${shop.slug}`} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: '16px', padding: '1rem 1.1rem', textDecoration: 'none', color: 'inherit' }}>
+                                                    <p style={{ margin: 0, fontWeight: 800 }}>{shop.name}</p>
+                                                    <p style={{ margin: '0.35rem 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                                                        {shop.category || 'ショップ情報'}{shop.ships_to_japan === false ? ' ・ 日本直送要確認' : ' ・ 日本発送比較へ'}
+                                                    </p>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {linkedBrands && linkedBrands.length > 0 && (
+                                    <div style={{ background: '#fafaf9', border: '1px solid var(--border)', borderRadius: '20px', padding: '1.5rem' }}>
+                                        <h2 style={{ fontSize: '1.25rem', margin: '0 0 1rem', border: 'none' }}>関連ブランドページ</h2>
+                                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                                            {linkedBrands.slice(0, 6).map((brand) => (
+                                                <Link key={brand.slug} href={`/brands/${brand.slug}`} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: '999px', padding: '0.75rem 1rem', textDecoration: 'none', color: '#111110', fontWeight: 700 }}>
+                                                    {brand.name}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {relatedGuides.length > 0 && (
+                                    <div style={{ background: '#fafaf9', border: '1px solid var(--border)', borderRadius: '20px', padding: '1.5rem' }}>
+                                        <h2 style={{ fontSize: '1.25rem', margin: '0 0 1rem', border: 'none' }}>あわせて読みたい基礎ガイド</h2>
+                                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '0.9rem' }}>
+                                            {relatedGuides.map((guide) => (
+                                                <Link key={guide.href} href={guide.href} style={{ background: 'white', border: '1px solid var(--border)', borderRadius: '16px', padding: '1rem 1.1rem', textDecoration: 'none', color: 'inherit' }}>
+                                                    <p style={{ margin: 0, fontWeight: 800 }}>{guide.title}</p>
+                                                    <p style={{ margin: '0.35rem 0 0', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>関税・配送・買い方の前提知識を補強</p>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </section>
+                        )}
 
                         <div className="next-action">
                             <h2 style={{ fontSize: '1.8rem', fontWeight: 850, marginBottom: '2rem', marginTop: 0, border: 'none' }}>Next Movement</h2>
