@@ -28,6 +28,7 @@ export default function GuidePage() {
                 { title: '海外プチプラファッション通販おすすめ10選', slug: 'overseas-shopping-petite-price-list' },
                 { title: '海外メンズファッション通販おすすめ11選', slug: 'mens-fashion-overseas-guide' },
                 { title: '海外通販レディースファッションおすすめ12選', slug: 'ladies-fashion-overseas-guide' },
+                { title: '子供服・ベビー服の海外通販おすすめ7選', slug: 'kids-baby-overseas-fashion-guide' },
             ]
         },
         {
@@ -39,6 +40,8 @@ export default function GuidePage() {
                 { title: '海外インテリア通販おすすめ9選', slug: 'interior-furniture-overseas-guide' },
                 { title: 'ウイスキー個人輸入おすすめ8選', slug: 'whisky-overseas-shopping-guide' },
                 { title: 'タブレットを海外通販で安く買う方法', slug: 'tablet-electronics-overseas-guide' },
+                { title: 'バイク用品・ヘルメットを安く買う海外通販7選', slug: 'motorcycle-gear-overseas-guide' },
+                { title: '海外通販でゴルフ用品を安く買う方法', slug: 'overseas-shopping-golf-equipment' },
             ]
         },
         {
