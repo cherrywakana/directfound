@@ -22,6 +22,12 @@ export const metadata: Metadata = {
   title: 'Original Price - 海外通販の現地価格をチェック',
   description: '日本発送対応の海外通販サイトを厳選してご紹介。関税や送料を含めた現地価格に近いお得な情報を届けます。',
   metadataBase: new URL('https://original-price.com'),
+  alternates: {
+    canonical: '/',
+    types: {
+      'application/rss+xml': [{ url: 'feed.xml', title: 'Original Price - 最新記事' }],
+    },
+  },
   openGraph: {
     title: 'Original Price - 海外通販の現地価格をチェック',
     description: '日本発送対応の海外通販サイトを厳選してご紹介。関税や送料を含めた現地価格に近いお得な情報を届けます。',
@@ -32,11 +38,6 @@ export const metadata: Metadata = {
   icons: {
     icon: '/favicon.svg',
     apple: '/favicon.svg',
-  },
-  alternates: {
-    types: {
-      'application/rss+xml': [{ url: 'feed.xml', title: 'Original Price - 最新記事' }],
-    },
   },
 }
 

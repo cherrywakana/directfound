@@ -44,6 +44,9 @@ export async function generateMetadata({
     return {
         title: `${post.title} | Original Price`,
         description: plainText,
+        alternates: {
+            canonical: `/${slug}`,
+        },
         openGraph: {
             title: post.title,
             description: plainText,

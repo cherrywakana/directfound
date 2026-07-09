@@ -1,8 +1,21 @@
-'use client'
-
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+    title: '海外通販ガイド | 初心者向けカテゴリ別おすすめ記事一覧',
+    description: '海外通販の基礎知識から、ファッション・アウトドア・スニーカー・ウイスキーまで。カテゴリ別におすすめガイドをまとめています。',
+    alternates: {
+        canonical: '/guide',
+    },
+    openGraph: {
+        title: '海外通販ガイド | Original Price',
+        description: '海外通販の基礎知識からカテゴリ別のおすすめ記事まで、迷ったときの入口ページです。',
+        url: 'https://original-price.com/guide',
+        type: 'website',
+    },
+}
 
 export default function GuidePage() {
     const sections = [
@@ -41,9 +54,43 @@ export default function GuidePage() {
         }
     ]
 
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'CollectionPage',
+                '@id': 'https://original-price.com/guide#collection',
+                name: '海外通販ガイド',
+                description: '海外通販の基礎知識から、カテゴリ別のおすすめガイドまでまとめた案内ページです。',
+                url: 'https://original-price.com/guide',
+            },
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    {
+                        '@type': 'ListItem',
+                        position: 1,
+                        name: 'ホーム',
+                        item: 'https://original-price.com',
+                    },
+                    {
+                        '@type': 'ListItem',
+                        position: 2,
+                        name: '海外通販ガイド',
+                        item: 'https://original-price.com/guide',
+                    },
+                ],
+            },
+        ],
+    }
+
     return (
         <>
             <Header />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
             <main style={{ fontFamily: 'var(--font-sans)', background: 'var(--bg)', minHeight: '100vh' }}>
 
                 {/* Hero Section */}

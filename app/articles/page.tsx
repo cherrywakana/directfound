@@ -2,9 +2,24 @@ import { supabase } from '@/lib/supabase'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Link from 'next/link'
+import type { Metadata } from 'next'
 import { formatJapaneseDate } from '@/lib/utils'
 
 export const revalidate = 60 // Revalidate cache every 60 seconds
+
+export const metadata: Metadata = {
+    title: '海外通販マガジン | ブランド情報と個人輸入ガイド記事一覧',
+    description: '海外通販の始め方、ブランド別の買い方、送料や関税の考え方まで。Original Priceの解説記事を一覧で読めます。',
+    alternates: {
+        canonical: '/articles',
+    },
+    openGraph: {
+        title: '海外通販マガジン | Original Price',
+        description: '海外通販の始め方、ブランド別の買い方、送料や関税の考え方まで。解説記事を一覧で読めます。',
+        url: 'https://original-price.com/articles',
+        type: 'website',
+    },
+}
 
 export default async function ArticlesPage() {
     const { data: posts } = await supabase
