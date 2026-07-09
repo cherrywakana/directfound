@@ -148,7 +148,7 @@ export function getLastVerifiedLabel(record: ShopInsight): string | undefined {
 }
 
 export const CORE_GUIDE_LINKS = [
-    { title: '海外通販 初めてガイド', href: '/articles/overseas-shopping-beginners-guide' },
-    { title: '関税の仕組みを知る', href: '/articles/overseas-shopping-customs-tax' },
-    { title: 'DDPとDDUの違いを知る', href: '/articles/overseas-shopping-ddp-ddu' },
+    { title: '海外通販ガイド一覧', href: '/guide' },
+    { title: 'ファッション通販の比較を見る', href: '/articles/overseas-fashion-shopping-ultimate-guide' },
+    { title: 'アウトドア通販の比較を見る', href: '/articles/overseas-outdoor-shops-guide' },
 ] as const

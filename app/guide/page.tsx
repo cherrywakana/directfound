@@ -7,33 +7,36 @@ import Link from 'next/link'
 export default function GuidePage() {
     const sections = [
         {
-            title: '基礎知識',
+            title: '人気カテゴリ別ガイド',
             icon: '📚',
             articles: [
-                { title: '海外通販とは？国内通販との違いと基本的な仕組み', slug: 'what-is-overseas-shopping' },
-                { title: '海外通販で失敗しないための7つの注意点', slug: 'overseas-shopping-tips' },
-                { title: '海外通販の関税とは？計算方法と支払いタイミングを解説', slug: 'overseas-shopping-customs-tax' },
-                { title: '海外通販の送料の仕組み｜DDPとDDUの違いをわかりやすく解説', slug: 'overseas-shopping-ddp-ddu' },
-                { title: '海外通販で使えるクレジットカードの選び方', slug: 'overseas-shopping-credit-card' },
+                { title: '海外ファッション通販サイトおすすめ25選', slug: 'overseas-fashion-shopping-ultimate-guide' },
+                { title: '海外スニーカーサイトおすすめ12選', slug: 'fashionshop/sneakers/list' },
+                { title: '海外プチプラファッション通販おすすめ10選', slug: 'overseas-shopping-petite-price-list' },
+                { title: '海外メンズファッション通販おすすめ11選', slug: 'mens-fashion-overseas-guide' },
+                { title: '海外通販レディースファッションおすすめ12選', slug: 'ladies-fashion-overseas-guide' },
             ]
         },
         {
-            title: 'はじめての海外通販',
+            title: 'ジャンル特化ガイド',
             icon: '🌱',
             articles: [
-                { title: '海外通販 初めてガイド｜アカウント作成から商品到着までの流れ', slug: 'overseas-shopping-beginners-guide' },
-                { title: '海外通販のサイズ選び｜US・EU・UKサイズの早見表', slug: 'overseas-shopping-size-guide' },
-                { title: '海外通販の支払い方法まとめ｜クレジットカード・PayPal・海外決済サービス', slug: 'overseas-shopping-payment-methods' },
-                { title: '海外通販の返品・交換のやり方｜英語メールのテンプレートつき', slug: 'overseas-shopping-returns' },
+                { title: '海外通販サイトのアウトドアおすすめ8選', slug: 'overseas-outdoor-shops-guide' },
+                { title: '自転車・ロードバイク海外通販おすすめ9選', slug: 'overseas-cycling-shopping-guide-2026' },
+                { title: '海外インテリア通販おすすめ9選', slug: 'interior-furniture-overseas-guide' },
+                { title: 'ウイスキー個人輸入おすすめ8選', slug: 'whisky-overseas-shopping-guide' },
+                { title: 'タブレットを海外通販で安く買う方法', slug: 'tablet-electronics-overseas-guide' },
             ]
         },
         {
-            title: 'トラブル対応・Q&A',
+            title: 'ブランド別の人気ガイド',
             icon: '🛡️',
             articles: [
-                { title: '海外通販で届かない場合の対処法', slug: 'overseas-shopping-not-delivered' },
-                { title: '海外通販で偽物をつかまないための見分け方', slug: 'overseas-shopping-avoid-fakes' },
-                { title: '海外通販の関税が高すぎた場合はどうする？', slug: 'overseas-shopping-customs-too-high' },
+                { title: 'Nikeが安い海外通販サイト21選', slug: 'nike-overseas-shopping-guide' },
+                { title: 'New Balanceが安い海外通販サイト19選', slug: 'new-balance-overseas-shopping-guide' },
+                { title: "Arc'teryxが安い海外通販サイトおすすめ5選", slug: 'arcteryx-overseas-shopping-guide' },
+                { title: 'Patagoniaが安い海外通販サイト14選', slug: 'patagonia-overseas-shopping-guide' },
+                { title: 'Adidasが安い海外通販サイト23選', slug: 'adidas-overseas-shopping-guide' },
             ]
         }
     ]
