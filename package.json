@@ -17,7 +17,9 @@
     "create-article-brief": "node scripts/create_article_brief.js",
     "generate-article-draft": "node scripts/generate_article_draft.js",
     "publish-generated-article": "node scripts/publish_generated_article.js",
-    "submit-indexing": "node scripts/google_indexing.js"
+    "submit-indexing": "node scripts/google_indexing.js",
+    "fetch-gsc": "node scripts/fetch_gsc_search_analytics.js",
+    "fetch-skimlinks": "node scripts/fetch_skimlinks_report.js"
   },
   "dependencies": {
     "@next/third-parties": "^16.1.6",
