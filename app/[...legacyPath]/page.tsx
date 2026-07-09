@@ -4,10 +4,10 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
-import { permanentRedirect } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { CORE_GUIDE_LINKS } from '@/lib/shopInsights'
 import { addExternalLinkAttributes, formatJapaneseDate, getArticleExcerpt, getLastVerifiedAt, sanitizeArticleHtml } from '@/lib/utils'
-import { LEGACY_REDIRECTS } from '@/lib/contentRedirects'
+import { ARTICLE_REDIRECTS, LEGACY_REDIRECTS } from '@/lib/contentRedirects'
 
 // Catch-all route for legacy URLs and custom paths
 // e.g. /fashionshop/lists/mens
@@ -19,7 +19,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { legacyPath } = await params
     const slug = legacyPath.join('/')
-    const redirectTarget = LEGACY_REDIRECTS[slug]
+    const redirectTarget = LEGACY_REDIRECTS[slug] || ARTICLE_REDIRECTS[slug]
 
     if (redirectTarget) {
         return {
@@ -118,7 +118,7 @@ export default async function LegacyPathPage({
 }) {
     const { legacyPath } = await params
     const slug = legacyPath.join('/')
-    const redirectTarget = LEGACY_REDIRECTS[slug]
+    const redirectTarget = LEGACY_REDIRECTS[slug] || ARTICLE_REDIRECTS[slug]
 
     if (redirectTarget) {
         permanentRedirect(redirectTarget)
@@ -130,19 +130,9 @@ export default async function LegacyPathPage({
         .eq('slug', slug)
         .single()
 
-    if (!post) return (
-        <>
-            <Header />
-            <main style={{ fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', padding: 'clamp(8rem, 12vw, 10rem) clamp(1.5rem, 5vw, 4rem)', minHeight: '100vh', background: '#f8fafc' }}>
-                <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                    <p style={{ color: '#94a3b8', marginBottom: '1.5rem', textAlign: 'center', fontSize: '1.2rem' }}>ページが見つかりません。</p>
-                    <div style={{ textAlign: 'center' }}>
-                        <Link href="/" style={{ color: '#111110', textDecoration: 'none', fontWeight: 600 }}>← トップに戻る</Link>
-                    </div>
-                </div>
-            </main>
-        </>
-    )
+    if (!post) {
+        notFound()
+    }
 
     const sanitizedContent = sanitizeArticleHtml(post.content || '')
     const linkedShopSlugs = extractLinkedSlugs(sanitizedContent, 'shops')

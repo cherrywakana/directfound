@@ -1,7 +1,7 @@
 import { supabase } from '@/lib/supabase'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { permanentRedirect, redirect } from 'next/navigation'
+import { notFound, permanentRedirect, redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
@@ -156,17 +156,9 @@ export default async function ArticleDetailPage({
         .eq('slug', slug)
         .single()
 
-    if (!post) return (
-        <>
-            <Header />
-            <main style={{ padding: '10rem 2rem', textAlign: 'center', background: 'var(--bg)', minHeight: '100vh' }}>
-                <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-                    <p style={{ color: 'var(--text-muted)', marginBottom: '2.5rem', fontSize: '1.2rem' }}>記事が見つかりませんでした。</p>
-                    <Link href="/articles" style={{ fontWeight: 700, color: '#111110', textDecoration: 'none' }}>← 記事一覧に戻る</Link>
-                </div>
-            </main>
-        </>
-    )
+    if (!post) {
+        notFound()
+    }
 
     // Parse & Sanitize
     const rawHtml = marked.parse(post.content || '') as string
