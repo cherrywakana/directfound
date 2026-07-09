@@ -1,13 +1,14 @@
 import { supabase } from '@/lib/supabase'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import { redirect } from 'next/navigation'
+import { permanentRedirect, redirect } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
 import { marked } from 'marked'
 import { CORE_GUIDE_LINKS } from '@/lib/shopInsights'
 import { addExternalLinkAttributes, formatJapaneseDate, getArticleExcerpt, getLastVerifiedAt, sanitizeArticleHtml } from '@/lib/utils'
+import { ARTICLE_REDIRECTS } from '@/lib/contentRedirects'
 
 const SITE_URL = 'https://original-price.com'
 
@@ -17,6 +18,13 @@ export async function generateMetadata({
     params: Promise<{ slug: string }>
 }): Promise<Metadata> {
     const { slug } = await params
+    const redirectTarget = ARTICLE_REDIRECTS[slug]
+
+    if (redirectTarget) {
+        return {
+            title: 'リダイレクト中 | Original Price',
+        }
+    }
 
     const { data: post } = await supabase
         .from('posts')
@@ -132,6 +140,12 @@ export default async function ArticleDetailPage({
     params: Promise<{ slug: string }>
 }) {
     const { slug } = await params
+    const redirectTarget = ARTICLE_REDIRECTS[slug]
+
+    if (redirectTarget) {
+        permanentRedirect(redirectTarget)
+    }
+
     if (slug.includes('/') && !slug.startsWith('articles/')) {
         redirect(`/${slug}`)
     }

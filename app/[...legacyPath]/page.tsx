@@ -4,8 +4,10 @@ import Footer from '@/components/Footer'
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Metadata } from 'next'
+import { permanentRedirect } from 'next/navigation'
 import { CORE_GUIDE_LINKS } from '@/lib/shopInsights'
 import { addExternalLinkAttributes, formatJapaneseDate, getArticleExcerpt, getLastVerifiedAt, sanitizeArticleHtml } from '@/lib/utils'
+import { LEGACY_REDIRECTS } from '@/lib/contentRedirects'
 
 // Catch-all route for legacy URLs and custom paths
 // e.g. /fashionshop/lists/mens
@@ -17,6 +19,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
     const { legacyPath } = await params
     const slug = legacyPath.join('/')
+    const redirectTarget = LEGACY_REDIRECTS[slug]
+
+    if (redirectTarget) {
+        return {
+            title: 'リダイレクト中 | Original Price',
+        }
+    }
 
     const { data: post } = await supabase
         .from('posts')
@@ -109,6 +118,11 @@ export default async function LegacyPathPage({
 }) {
     const { legacyPath } = await params
     const slug = legacyPath.join('/')
+    const redirectTarget = LEGACY_REDIRECTS[slug]
+
+    if (redirectTarget) {
+        permanentRedirect(redirectTarget)
+    }
 
     const { data: post } = await supabase
         .from('posts')
