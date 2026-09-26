@@ -39,11 +39,11 @@ export default async function Home() {
   return <>
     <Header />
     <main id="main-content">
-      <div className="op-topline"><span>OVERSEAS SHOPPING, MADE CLEARER</span><span>CURATED FOR JAPAN</span></div>
+      <div className="op-topline"><span>OVERSEAS SHOPPING DIRECTORY / TOKYO</span><span>CURATED FOR JAPAN / EST. 2026</span></div>
       <section className="op-hero">
         <div className="op-hero-copy">
           <p className="op-eyebrow"><span>01</span> WORLDWIDE SHOPPING DIRECTORY</p>
-          <h1>世界の<br /><em>いい買いもの</em>を、<br />見つけよう。</h1>
+          <h1>世界の<br />いい買いものを、<br />見つけよう。</h1>
           <p className="op-hero-lead">日本から買える海外通販を、ブランド・カテゴリ・配送条件から探せるガイドです。知らなかった一軒が、次の定番になるかもしれません。</p>
           <div className="op-stats">
             <div><strong>{formatCount(shopCount.count, '80+')}</strong><span>掲載ショップ</span></div>
@@ -51,8 +51,15 @@ export default async function Home() {
             <div><strong>06</strong><span>カテゴリー</span></div>
           </div>
         </div>
+        <div className="op-hero-display">
+          {featuredShops[0]?.image_url ? <Image src={featuredShops[0].image_url} alt={featuredShops[0].name} fill priority sizes="(max-width: 860px) 100vw, 50vw" style={{ objectFit: 'cover' }} /> : <div className="op-display-placeholder"><span>ORIGINAL</span><span>PRICE</span></div>}
+          <div className="op-display-caption"><span>FEATURED / 01</span><Link href={featuredShops[0] ? `/shops/${featuredShops[0].slug}` : '/shops'}>{featuredShops[0]?.name ?? 'SHOP DIRECTORY'} ↗</Link></div>
+        </div>
+      </section>
+
+      <section className="op-search-band">
         <div className="op-search-panel">
-          <div className="op-panel-heading"><span>FIND A SHOP</span><b>気になるものから、探す。</b></div>
+          <div className="op-panel-heading"><span>FIND A SHOP / すぐに探す</span><b>気になるものから、探す。</b></div>
           <form action="/shops" className="op-search-form">
             <label><span>キーワード</span><input type="text" name="q" placeholder="ショップ名・ブランド名・カテゴリ" /></label>
             <label><span>カテゴリー</span><select name="category" defaultValue=""><option value="">すべてのカテゴリー</option>{HOME_CATEGORY_CARDS.map((category) => <option key={category.label} value={category.label}>{category.label}</option>)}</select></label>

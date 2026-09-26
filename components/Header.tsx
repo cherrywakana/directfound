@@ -4,10 +4,10 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 const navLinks = [
-  { label: 'ショップを探す', href: '/shops' },
-  { label: 'ブランドから探す', href: '/brands' },
-  { label: '読みもの', href: '/articles' },
-  { label: 'はじめての方へ', href: '/guide' },
+  { label: 'ショップ', href: '/shops', icon: '□' },
+  { label: 'ブランド', href: '/brands', icon: '◇' },
+  { label: '読みもの', href: '/articles', icon: '≡' },
+  { label: 'ガイド', href: '/guide', icon: '○' },
 ]
 
 export default function Header() {
@@ -32,7 +32,7 @@ export default function Header() {
 
       <div className="header-actions">
         <nav className="desktop-nav" aria-label="メインメニュー">
-          {navLinks.map((link) => <Link key={link.href} href={link.href}>{link.label}</Link>)}
+          {navLinks.map((link) => <Link key={link.href} href={link.href}><span aria-hidden="true">{link.icon}</span>{link.label}</Link>)}
         </nav>
         <Link href="/search" className="header-search" aria-label="サイト内を検索">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 4 4" /></svg>
@@ -45,7 +45,7 @@ export default function Header() {
 
       {menuOpen && (
         <nav className="mobile-menu" aria-label="モバイルメニュー">
-          {navLinks.map((link) => <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}>{link.label}<span>↗</span></Link>)}
+          {navLinks.map((link) => <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}><span>{link.icon}　{link.label}</span><span>↗</span></Link>)}
         </nav>
       )}
     </header>
